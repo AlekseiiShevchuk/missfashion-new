@@ -198,7 +198,7 @@ class ParseProductsToDb extends Command
         }
 
         $product = [];
-        if (count($productsList) > 0) {
+        if (count($productsList) < 1) {
             return $product;
         }
         foreach ($productsList as $item) {
