@@ -29,7 +29,6 @@
                         <th>@lang('quickadmin.products.fields.old-price')</th>
                         <th>@lang('quickadmin.products.fields.new-price')</th>
                         <th>@lang('quickadmin.products.fields.regular-price')</th>
-                        <th>@lang('quickadmin.products.fields.sko-str')</th>
                         <th>@lang('quickadmin.products.fields.description')</th>
                         <th>@lang('quickadmin.products.fields.colors')</th>
                         <th>@lang('quickadmin.products.fields.sizes')</th>
@@ -53,7 +52,6 @@
                                 <td>{{ $product->old_price }}</td>
                                 <td>{{ $product->new_price }}</td>
                                 <td>{{ $product->regular_price }}</td>
-                                <td>{{ $product->sko_str }}</td>
                                 <td>{!! $product->description !!}</td>
                                 <td>
                                     @foreach ($product->colors as $singleColors)

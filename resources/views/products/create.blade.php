@@ -108,18 +108,6 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 form-group">
-                    {!! Form::label('sko_str', 'Sko str', ['class' => 'control-label']) !!}
-                    {!! Form::text('sko_str', old('sko_str'), ['class' => 'form-control', 'placeholder' => '']) !!}
-                    <p class="help-block"></p>
-                    @if($errors->has('sko_str'))
-                        <p class="help-block">
-                            {{ $errors->first('sko_str') }}
-                        </p>
-                    @endif
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 form-group">
                     {!! Form::label('description', 'Description', ['class' => 'control-label']) !!}
                     {!! Form::textarea('description', old('description'), ['class' => 'form-control editor', 'placeholder' => '']) !!}
                     <p class="help-block"></p>

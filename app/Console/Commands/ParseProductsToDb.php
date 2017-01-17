@@ -14,48 +14,48 @@ use Symfony\Component\DomCrawler\Crawler;
 class ParseProductsToDb extends Command
 {
     const LIMIT_PER_PAGE = 72;
-    protected $source = [
-        'http://www.envylook.dk/' => ['nyheder'],
-    ];
 //    protected $source = [
-//        'http://www.envylook.dk/' => ['nyheder', 'overdele', 'underdele', 'kjoler', 'sko', 'accessories', 'udsalg'],
-//        'http://online-mode.dk/' => [
-//            'nyheder',
-//            'plus-size/kjoler',
-//            'plus-size/overdele',
-//            'plus-size/underdele',
-//            'toj/kjoler/strikkjoler',
-//            'toj/kjoler/festkjoler',
-//            'toj/kjoler/aftenkjoler',
-//            'toj/kjoler/lange-kjoler',
-//            'toj/overdele/toppe',
-//            'toj/overdele/bluser',
-//            'toj/overdele/tunika',
-//            'toj/overdele/cardigans',
-//            'toj/overdele/jakker',
-//            'toj/underdele/leggins',
-//            'toj/underdele/jeans',
-//            'toj/underdele/nederdele',
-//            'toj/underdele/overalls',
-//            'toj/tilbehor/nylonstromper',
-//            'toj/tilbehor/badetoj',
-//            'toj/tilbehor/lingeri-undertoj',
-//            'sko-stovler/stovle/ankelstovler',
-//            'sko-stovler/stovle/stovler',
-//            'sko-stovler/hoje-sko/pumps',
-//            'sko-stovler/hoje-sko/stiletter',
-//            'sko-stovler/flade-sko/sandaler',
-//            'sko-stovler/flade-sko/sneakers',
-//            'accessories/acc-tilbehor/tasker',
-//            'accessories/acc-tilbehor/balter',
-//            'accessories/acc-tilbehor/torklader',
-//            'accessories/acc-tilbehor/huer-handsker',
-//            'accessories/acc-tilbehor/solbriller',
-//            'accessories/smykker/armband',
-//            'accessories/smykker/halskaeder',
-//            'udsalg'
-//        ]
+//        'http://www.envylook.dk/' => ['nyheder'],
 //    ];
+    protected $source = [
+        'http://www.envylook.dk/' => ['nyheder', 'overdele', 'underdele', 'kjoler', 'sko', 'accessories', 'udsalg'],
+        'http://online-mode.dk/' => [
+            'nyheder',
+            'plus-size/kjoler',
+            'plus-size/overdele',
+            'plus-size/underdele',
+            'toj/kjoler/strikkjoler',
+            'toj/kjoler/festkjoler',
+            'toj/kjoler/aftenkjoler',
+            'toj/kjoler/lange-kjoler',
+            'toj/overdele/toppe',
+            'toj/overdele/bluser',
+            'toj/overdele/tunika',
+            'toj/overdele/cardigans',
+            'toj/overdele/jakker',
+            'toj/underdele/leggins',
+            'toj/underdele/jeans',
+            'toj/underdele/nederdele',
+            'toj/underdele/overalls',
+            'toj/tilbehor/nylonstromper',
+            'toj/tilbehor/badetoj',
+            'toj/tilbehor/lingeri-undertoj',
+            'sko-stovler/stovle/ankelstovler',
+            'sko-stovler/stovle/stovler',
+            'sko-stovler/hoje-sko/pumps',
+            'sko-stovler/hoje-sko/stiletter',
+            'sko-stovler/flade-sko/sandaler',
+            'sko-stovler/flade-sko/sneakers',
+            'accessories/acc-tilbehor/tasker',
+            'accessories/acc-tilbehor/balter',
+            'accessories/acc-tilbehor/torklader',
+            'accessories/acc-tilbehor/huer-handsker',
+            'accessories/acc-tilbehor/solbriller',
+            'accessories/smykker/armband',
+            'accessories/smykker/halskaeder',
+            'udsalg'
+        ]
+    ];
     /**
      * The name and signature of the console command.
      *
@@ -142,6 +142,17 @@ class ParseProductsToDb extends Command
                             $localSize->push();
                         }
                     }
+
+                    if (is_array($inputProduct['sko_str']) && count($inputProduct['sko_str']) > 0) {
+                        foreach ($inputProduct['sko_str'] as $inputSize) {
+                            if ($inputSize == null || $inputSize == '') {
+                                continue;
+                            }
+                            $localSize = Size::firstOrCreate(['name' => $inputSize]);
+                            $localProduct->sizes()->syncWithoutDetaching([$localSize->id]);
+                            $localSize->push();
+                        }
+                    }
                     //обновляем/добавляем инфу о продукте
                     $localProduct->from_site_url = $site;
                     $localProduct->source_url = $inputProduct['url'];
@@ -150,7 +161,6 @@ class ParseProductsToDb extends Command
                     $localProduct->old_price = (int)$inputProduct['old_price'];
                     $localProduct->new_price = (int)$inputProduct['new_price'];
                     $localProduct->regular_price = (int)$inputProduct['regular_price'];
-                    $localProduct->sko_str = $inputProduct['sko_str'];
                     $localProduct->description = $inputProduct['description'];
                     $localProduct->first_accordion_content = $inputProduct['first_accordion_content'];
                     $localProduct->second_accordion_content = $inputProduct['second_accordion_content'];

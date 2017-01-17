@@ -45,10 +45,6 @@
                             <td>{{ $product->regular_price }}</td>
                         </tr>
                         <tr>
-                            <th>@lang('quickadmin.products.fields.sko-str')</th>
-                            <td>{{ $product->sko_str }}</td>
-                        </tr>
-                        <tr>
                             <th>@lang('quickadmin.products.fields.description')</th>
                             <td>{!! $product->description !!}</td>
                         </tr>
