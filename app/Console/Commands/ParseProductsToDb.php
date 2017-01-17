@@ -13,7 +13,7 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class ParseProductsToDb extends Command
 {
-//    const LIMIT_PER_PAGE = 72;
+    const LIMIT_PER_PAGE = 72;
 //    protected $source = [
 //        'http://www.envylook.dk/' => ['nyheder'],
 //    ];
