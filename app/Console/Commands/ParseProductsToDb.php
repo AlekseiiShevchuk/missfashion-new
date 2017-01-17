@@ -198,6 +198,9 @@ class ParseProductsToDb extends Command
         }
 
         $product = [];
+        if (count($productsList) > 0) {
+            return $product;
+        }
         foreach ($productsList as $item) {
             $responseProduct = $client->request('GET', $item['href']);
             $htmlProduct = $responseProduct->getBody()->getContents();
