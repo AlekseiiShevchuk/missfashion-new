@@ -14,48 +14,48 @@ use Symfony\Component\DomCrawler\Crawler;
 class ParseProductsToDb extends Command
 {
     const LIMIT_PER_PAGE = 72;
-//    protected $source = [
-//        'http://www.envylook.dk/' => ['nyheder'],
-//    ];
     protected $source = [
-        'http://www.envylook.dk/' => ['nyheder', 'overdele', 'underdele', 'kjoler', 'sko', 'accessories', 'udsalg'],
-        'http://online-mode.dk/' => [
-            'nyheder',
-            'plus-size/kjoler',
-            'plus-size/overdele',
-            'plus-size/underdele',
-            'toj/kjoler/strikkjoler',
-            'toj/kjoler/festkjoler',
-            'toj/kjoler/aftenkjoler',
-            'toj/kjoler/lange-kjoler',
-            'toj/overdele/toppe',
-            'toj/overdele/bluser',
-            'toj/overdele/tunika',
-            'toj/overdele/cardigans',
-            'toj/overdele/jakker',
-            'toj/underdele/leggins',
-            'toj/underdele/jeans',
-            'toj/underdele/nederdele',
-            'toj/underdele/overalls',
-            'toj/tilbehor/nylonstromper',
-            'toj/tilbehor/badetoj',
-            'toj/tilbehor/lingeri-undertoj',
-            'sko-stovler/stovle/ankelstovler',
-            'sko-stovler/stovle/stovler',
-            'sko-stovler/hoje-sko/pumps',
-            'sko-stovler/hoje-sko/stiletter',
-            'sko-stovler/flade-sko/sandaler',
-            'sko-stovler/flade-sko/sneakers',
-            'accessories/acc-tilbehor/tasker',
-            'accessories/acc-tilbehor/balter',
-            'accessories/acc-tilbehor/torklader',
-            'accessories/acc-tilbehor/huer-handsker',
-            'accessories/acc-tilbehor/solbriller',
-            'accessories/smykker/armband',
-            'accessories/smykker/halskaeder',
-            'udsalg'
-        ]
+        'http://www.envylook.dk/' => ['nyheder'],
     ];
+//    protected $source = [
+//        'http://www.envylook.dk/' => ['nyheder', 'overdele', 'underdele', 'kjoler', 'sko', 'accessories', 'udsalg'],
+//        'http://online-mode.dk/' => [
+//            'nyheder',
+//            'plus-size/kjoler',
+//            'plus-size/overdele',
+//            'plus-size/underdele',
+//            'toj/kjoler/strikkjoler',
+//            'toj/kjoler/festkjoler',
+//            'toj/kjoler/aftenkjoler',
+//            'toj/kjoler/lange-kjoler',
+//            'toj/overdele/toppe',
+//            'toj/overdele/bluser',
+//            'toj/overdele/tunika',
+//            'toj/overdele/cardigans',
+//            'toj/overdele/jakker',
+//            'toj/underdele/leggins',
+//            'toj/underdele/jeans',
+//            'toj/underdele/nederdele',
+//            'toj/underdele/overalls',
+//            'toj/tilbehor/nylonstromper',
+//            'toj/tilbehor/badetoj',
+//            'toj/tilbehor/lingeri-undertoj',
+//            'sko-stovler/stovle/ankelstovler',
+//            'sko-stovler/stovle/stovler',
+//            'sko-stovler/hoje-sko/pumps',
+//            'sko-stovler/hoje-sko/stiletter',
+//            'sko-stovler/flade-sko/sandaler',
+//            'sko-stovler/flade-sko/sneakers',
+//            'accessories/acc-tilbehor/tasker',
+//            'accessories/acc-tilbehor/balter',
+//            'accessories/acc-tilbehor/torklader',
+//            'accessories/acc-tilbehor/huer-handsker',
+//            'accessories/acc-tilbehor/solbriller',
+//            'accessories/smykker/armband',
+//            'accessories/smykker/halskaeder',
+//            'udsalg'
+//        ]
+//    ];
     /**
      * The name and signature of the console command.
      *
@@ -94,7 +94,7 @@ class ParseProductsToDb extends Command
             foreach ($categories as $category) {
 
                 $productsByCategory = $this->parseProducts($site, $category);
-                if (count($productsByCategory) < 1) {
+                if (!is_array($productsByCategory) || count($productsByCategory) < 1) {
                     continue;
                 }
                 foreach ($productsByCategory as $inputProduct) {
@@ -110,7 +110,7 @@ class ParseProductsToDb extends Command
                     $categoryModel = Category::firstOrCreate(['name' => $category]);
                     $localProduct->category()->associate($categoryModel);
 
-                    if (count($inputProduct['image']) > 0) {
+                    if (is_array($inputProduct['image']) && count($inputProduct['image']) > 0) {
                         foreach ($inputProduct['image'] as $inputImage) {
                             if ($inputImage == null) {
                                 continue;
@@ -121,7 +121,7 @@ class ParseProductsToDb extends Command
                         }
                     }
 
-                    if (count($inputProduct['colors']) > 0) {
+                    if (is_array($inputProduct['colors']) && count($inputProduct['colors']) > 0) {
                         foreach ($inputProduct['colors'] as $inputColor) {
                             if ($inputColor == null) {
                                 continue;
@@ -132,7 +132,7 @@ class ParseProductsToDb extends Command
                         }
                     }
 
-                    if (count($inputProduct['str']) > 0) {
+                    if (is_array($inputProduct['str']) && count($inputProduct['str']) > 0) {
                         foreach ($inputProduct['str'] as $inputSize) {
                             if ($inputSize == null) {
                                 continue;
@@ -198,9 +198,10 @@ class ParseProductsToDb extends Command
         }
 
         $product = [];
-        if (count($productsList) < 1) {
+        if (!is_array($productsList) || count($productsList) < 1) {
             return $product;
         }
+
         foreach ($productsList as $item) {
             $responseProduct = $client->request('GET', $item['href']);
             $htmlProduct = $responseProduct->getBody()->getContents();
