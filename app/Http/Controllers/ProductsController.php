@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\StoreProductsRequest;
 use App\Http\Requests\UpdateProductsRequest;
+use Yajra\Datatables\Datatables;
 
 class ProductsController extends Controller
 {
@@ -20,9 +21,39 @@ class ProductsController extends Controller
         if (! Gate::allows('product_access')) {
             return abort(401);
         }
-        $products = Product::all();
+        
+        if (request()->ajax()) {
+            $query = Product::query();
+            $query->with("category");
+            $query->with("images");
+            $query->with("colors");
+            $query->with("sizes");
+            $table = Datatables::of($query);
+            $table->addColumn('massDelete', '&nbsp;');
+            $table->addColumn('actions', '&nbsp;');
+            $table->editColumn('actions', function ($row) {
+                $gateKey  = 'product_';
+                $routeKey = 'products';
 
-        return view('products.index', compact('products'));
+                return view('actionsTemplate', compact('row', 'gateKey', 'routeKey'));
+            });
+            $table->editColumn('images.url', function ($row) {
+                return '<span class="label label-info label-many">' . implode('</span><span class="label label-info label-many"> ',
+                        $row->images->pluck('url')->toArray()) . '</span>';
+            });
+            $table->editColumn('colors.name', function ($row) {
+                return '<span class="label label-info label-many">' . implode('</span><span class="label label-info label-many"> ',
+                        $row->colors->pluck('name')->toArray()) . '</span>';
+            });
+            $table->editColumn('sizes.name', function ($row) {
+                return '<span class="label label-info label-many">' . implode('</span><span class="label label-info label-many"> ',
+                        $row->sizes->pluck('name')->toArray()) . '</span>';
+            });
+
+            return $table->make(true);
+        }
+
+        return view('products.index');
     }
 
     /**

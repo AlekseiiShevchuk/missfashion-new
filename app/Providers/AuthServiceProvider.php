@@ -79,6 +79,45 @@ class AuthServiceProvider extends ServiceProvider
             return in_array($user->role_id, [1]);
         });
 
+        // Auth gates for: Donor
+        Gate::define('donor_access', function ($user) {
+            return in_array($user->role_id, [1]);
+        });
+        Gate::define('donor_create', function ($user) {
+            return in_array($user->role_id, [1]);
+        });
+        Gate::define('donor_edit', function ($user) {
+            return in_array($user->role_id, [1]);
+        });
+        Gate::define('donor_view', function ($user) {
+            return in_array($user->role_id, [1]);
+        });
+        Gate::define('donor_delete', function ($user) {
+            return in_array($user->role_id, [1]);
+        });
+
+        // Auth gates for: Categories
+        Gate::define('category_access', function ($user) {
+            return in_array($user->role_id, [1]);
+        });
+        Gate::define('category_create', function ($user) {
+            return in_array($user->role_id, [1]);
+        });
+        Gate::define('category_edit', function ($user) {
+            return in_array($user->role_id, [1]);
+        });
+        Gate::define('category_view', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
+        Gate::define('category_delete', function ($user) {
+            return in_array($user->role_id, [1]);
+        });
+
+        // Auth gates for: Product attributes
+        Gate::define('product_attribute_access', function ($user) {
+            return in_array($user->role_id, [1]);
+        });
+
         // Auth gates for: Images
         Gate::define('image_access', function ($user) {
             return in_array($user->role_id, [1]);
@@ -127,23 +166,6 @@ class AuthServiceProvider extends ServiceProvider
             return in_array($user->role_id, [1, 2]);
         });
         Gate::define('size_delete', function ($user) {
-            return in_array($user->role_id, [1]);
-        });
-
-        // Auth gates for: Categories
-        Gate::define('category_access', function ($user) {
-            return in_array($user->role_id, [1]);
-        });
-        Gate::define('category_create', function ($user) {
-            return in_array($user->role_id, [1]);
-        });
-        Gate::define('category_edit', function ($user) {
-            return in_array($user->role_id, [1]);
-        });
-        Gate::define('category_view', function ($user) {
-            return in_array($user->role_id, [1, 2]);
-        });
-        Gate::define('category_delete', function ($user) {
             return in_array($user->role_id, [1]);
         });
 

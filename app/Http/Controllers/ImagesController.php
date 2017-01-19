@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\StoreImagesRequest;
 use App\Http\Requests\UpdateImagesRequest;
+use Yajra\Datatables\Datatables;
 
 class ImagesController extends Controller
 {
@@ -20,9 +21,23 @@ class ImagesController extends Controller
         if (! Gate::allows('image_access')) {
             return abort(401);
         }
-        $images = Image::all();
+        
+        if (request()->ajax()) {
+            $query = Image::query();
+            $table = Datatables::of($query);
+            $table->addColumn('massDelete', '&nbsp;');
+            $table->addColumn('actions', '&nbsp;');
+            $table->editColumn('actions', function ($row) {
+                $gateKey  = 'image_';
+                $routeKey = 'images';
 
-        return view('images.index', compact('images'));
+                return view('actionsTemplate', compact('row', 'gateKey', 'routeKey'));
+            });
+
+            return $table->make(true);
+        }
+
+        return view('images.index');
     }
 
     /**
@@ -87,23 +102,6 @@ class ImagesController extends Controller
         $image->update($request->all());
 
         return redirect()->route('images.index');
-    }
-
-
-    /**
-     * Display Image.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        if (! Gate::allows('image_view')) {
-            return abort(401);
-        }
-        $image = Image::findOrFail($id);
-
-        return view('images.show', compact('image'));
     }
 
 

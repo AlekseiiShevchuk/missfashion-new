@@ -12,24 +12,12 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-xs-12 form-group">
-                    {!! Form::label('category_id', 'Category id*', ['class' => 'control-label']) !!}
+                    {!! Form::label('category_id', 'Category*', ['class' => 'control-label']) !!}
                     {!! Form::select('category_id', $categories, old('category_id'), ['class' => 'form-control select2']) !!}
                     <p class="help-block"></p>
                     @if($errors->has('category_id'))
                         <p class="help-block">
                             {{ $errors->first('category_id') }}
-                        </p>
-                    @endif
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 form-group">
-                    {!! Form::label('from_site_url', 'From site url', ['class' => 'control-label']) !!}
-                    {!! Form::text('from_site_url', old('from_site_url'), ['class' => 'form-control', 'placeholder' => '']) !!}
-                    <p class="help-block"></p>
-                    @if($errors->has('from_site_url'))
-                        <p class="help-block">
-                            {{ $errors->first('from_site_url') }}
                         </p>
                     @endif
                 </div>
@@ -48,7 +36,7 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 form-group">
-                    {!! Form::label('name', 'Name', ['class' => 'control-label']) !!}
+                    {!! Form::label('name', 'Product Name*', ['class' => 'control-label']) !!}
                     {!! Form::text('name', old('name'), ['class' => 'form-control', 'placeholder' => '']) !!}
                     <p class="help-block"></p>
                     @if($errors->has('name'))
@@ -73,7 +61,7 @@
             <div class="row">
                 <div class="col-xs-12 form-group">
                     {!! Form::label('old_price', 'Old price', ['class' => 'control-label']) !!}
-                    {!! Form::number('old_price', old('old_price'), ['class' => 'form-control', 'placeholder' => '']) !!}
+                    {!! Form::text('old_price', old('old_price'), ['class' => 'form-control', 'placeholder' => '']) !!}
                     <p class="help-block"></p>
                     @if($errors->has('old_price'))
                         <p class="help-block">
@@ -85,7 +73,7 @@
             <div class="row">
                 <div class="col-xs-12 form-group">
                     {!! Form::label('new_price', 'New price', ['class' => 'control-label']) !!}
-                    {!! Form::number('new_price', old('new_price'), ['class' => 'form-control', 'placeholder' => '']) !!}
+                    {!! Form::text('new_price', old('new_price'), ['class' => 'form-control', 'placeholder' => '']) !!}
                     <p class="help-block"></p>
                     @if($errors->has('new_price'))
                         <p class="help-block">
@@ -97,7 +85,7 @@
             <div class="row">
                 <div class="col-xs-12 form-group">
                     {!! Form::label('regular_price', 'Regular price', ['class' => 'control-label']) !!}
-                    {!! Form::number('regular_price', old('regular_price'), ['class' => 'form-control', 'placeholder' => '']) !!}
+                    {!! Form::text('regular_price', old('regular_price'), ['class' => 'form-control', 'placeholder' => '']) !!}
                     <p class="help-block"></p>
                     @if($errors->has('regular_price'))
                         <p class="help-block">
@@ -108,7 +96,7 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 form-group">
-                    {!! Form::label('description', 'Description', ['class' => 'control-label']) !!}
+                    {!! Form::label('description', 'Description*', ['class' => 'control-label']) !!}
                     {!! Form::textarea('description', old('description'), ['class' => 'form-control editor', 'placeholder' => '']) !!}
                     <p class="help-block"></p>
                     @if($errors->has('description'))

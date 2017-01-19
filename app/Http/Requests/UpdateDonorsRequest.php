@@ -3,7 +3,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateSizesRequest extends FormRequest
+class UpdateDonorsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,8 @@ class UpdateSizesRequest extends FormRequest
     {
         return [
             
-            'name' => 'required|unique:sizes,name,'.$this->route('size'),
+            'url' => 'required|unique:donors,url,'.$this->route('donor'),
+            
         ];
     }
 }

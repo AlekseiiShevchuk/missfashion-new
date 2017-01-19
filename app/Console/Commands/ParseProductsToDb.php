@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Category;
 use App\Color;
+use App\Donor;
 use App\Image;
 use App\Product;
 use App\Size;
@@ -14,48 +15,6 @@ use Symfony\Component\DomCrawler\Crawler;
 class ParseProductsToDb extends Command
 {
     const LIMIT_PER_PAGE = 72;
-//    protected $source = [
-//        'http://www.envylook.dk/' => ['nyheder'],
-//    ];
-    protected $source = [
-        'http://www.envylook.dk/' => ['nyheder', 'overdele', 'underdele', 'kjoler', 'sko', 'accessories', 'udsalg'],
-        'http://online-mode.dk/' => [
-            'nyheder',
-            'plus-size/kjoler',
-            'plus-size/overdele',
-            'plus-size/underdele',
-            'toj/kjoler/strikkjoler',
-            'toj/kjoler/festkjoler',
-            'toj/kjoler/aftenkjoler',
-            'toj/kjoler/lange-kjoler',
-            'toj/overdele/toppe',
-            'toj/overdele/bluser',
-            'toj/overdele/tunika',
-            'toj/overdele/cardigans',
-            'toj/overdele/jakker',
-            'toj/underdele/leggins',
-            'toj/underdele/jeans',
-            'toj/underdele/nederdele',
-            'toj/underdele/overalls',
-            'toj/tilbehor/nylonstromper',
-            'toj/tilbehor/badetoj',
-            'toj/tilbehor/lingeri-undertoj',
-            'sko-stovler/stovle/ankelstovler',
-            'sko-stovler/stovle/stovler',
-            'sko-stovler/hoje-sko/pumps',
-            'sko-stovler/hoje-sko/stiletter',
-            'sko-stovler/flade-sko/sandaler',
-            'sko-stovler/flade-sko/sneakers',
-            'accessories/acc-tilbehor/tasker',
-            'accessories/acc-tilbehor/balter',
-            'accessories/acc-tilbehor/torklader',
-            'accessories/acc-tilbehor/huer-handsker',
-            'accessories/acc-tilbehor/solbriller',
-            'accessories/smykker/armband',
-            'accessories/smykker/halskaeder',
-            'udsalg'
-        ]
-    ];
     /**
      * The name and signature of the console command.
      *
@@ -89,96 +48,93 @@ class ParseProductsToDb extends Command
     {
         $inputProductsUrlArray = [];
 
-        foreach ($this->source as $site => $categories) {
+        $donors = Donor::all();
 
-            foreach ($categories as $category) {
+        foreach ($donors as $donor) {
+if(!$donor->category)
+            $productsByCategory = $this->parseProducts($donor);
+            if (!is_array($productsByCategory) || count($productsByCategory) < 1) {
+                continue;
+            }
+            foreach ($productsByCategory as $inputProduct) {
+                $inputProductsUrlArray[] = $inputProduct['url'];
+                /**@var Product $localProduct */
+                $localProduct = Product::firstOrNew([
+                    'source_url' => $inputProduct['url']
+                ]);
+                $localProduct->save();
+                $localProduct->fresh();
 
-                $productsByCategory = $this->parseProducts($site, $category);
-                if (!is_array($productsByCategory) || count($productsByCategory) < 1) {
-                    continue;
+                //разруливаем связи продукта с другими моделями
+                $categoryModel = Category::firstOrCreate(['name' => $category]);
+                $localProduct->category()->associate($categoryModel);
+
+                if (is_array($inputProduct['image']) && count($inputProduct['image']) > 0) {
+                    foreach ($inputProduct['image'] as $inputImage) {
+                        if ($inputImage == null) {
+                            continue;
+                        }
+                        $localImage = Image::firstOrCreate(['url' => $inputImage]);
+                        $localProduct->images()->syncWithoutDetaching([$localImage->id]);
+                        $localImage->push();
+                    }
                 }
-                foreach ($productsByCategory as $inputProduct) {
-                    $inputProductsUrlArray[] = $inputProduct['url'];
-                    /**@var Product $localProduct */
-                    $localProduct = Product::firstOrNew([
-                        'source_url' => $inputProduct['url']
-                    ]);
-                    $localProduct->save();
-                    $localProduct->fresh();
 
-                    //разруливаем связи продукта с другими моделями
-                    $categoryModel = Category::firstOrCreate(['name' => $category]);
-                    $localProduct->category()->associate($categoryModel);
-
-                    if (is_array($inputProduct['image']) && count($inputProduct['image']) > 0) {
-                        foreach ($inputProduct['image'] as $inputImage) {
-                            if ($inputImage == null) {
-                                continue;
-                            }
-                            $localImage = Image::firstOrCreate(['url' => $inputImage]);
-                            $localProduct->images()->syncWithoutDetaching([$localImage->id]);
-                            $localImage->push();
+                if (is_array($inputProduct['colors']) && count($inputProduct['colors']) > 0) {
+                    foreach ($inputProduct['colors'] as $inputColor) {
+                        if ($inputColor == null) {
+                            continue;
                         }
+                        $localColor = Color::firstOrCreate(['name' => $inputColor]);
+                        $localProduct->colors()->syncWithoutDetaching([$localColor->id]);
+                        $localColor->push();
                     }
-
-                    if (is_array($inputProduct['colors']) && count($inputProduct['colors']) > 0) {
-                        foreach ($inputProduct['colors'] as $inputColor) {
-                            if ($inputColor == null) {
-                                continue;
-                            }
-                            $localColor = Color::firstOrCreate(['name' => $inputColor]);
-                            $localProduct->colors()->syncWithoutDetaching([$localColor->id]);
-                            $localColor->push();
-                        }
-                    }
-
-                    if (is_array($inputProduct['str']) && count($inputProduct['str']) > 0) {
-                        foreach ($inputProduct['str'] as $inputSize) {
-                            if ($inputSize == null) {
-                                continue;
-                            }
-                            $localSize = Size::firstOrCreate(['name' => $inputSize]);
-                            $localProduct->sizes()->syncWithoutDetaching([$localSize->id]);
-                            $localSize->push();
-                        }
-                    }
-
-                    if (is_array($inputProduct['sko_str']) && count($inputProduct['sko_str']) > 0) {
-                        foreach ($inputProduct['sko_str'] as $inputSize) {
-                            if ($inputSize == null || $inputSize == '') {
-                                continue;
-                            }
-                            $localSize = Size::firstOrCreate(['name' => $inputSize]);
-                            $localProduct->sizes()->syncWithoutDetaching([$localSize->id]);
-                            $localSize->push();
-                        }
-                    }
-                    //обновляем/добавляем инфу о продукте
-                    $localProduct->from_site_url = $site;
-                    $localProduct->source_url = $inputProduct['url'];
-                    $localProduct->name = $inputProduct['name'];
-                    $localProduct->sku = $inputProduct['sku'];
-                    $localProduct->old_price = (int)$inputProduct['old_price'];
-                    $localProduct->new_price = (int)$inputProduct['new_price'];
-                    $localProduct->regular_price = (int)$inputProduct['regular_price'];
-                    $localProduct->description = $inputProduct['description'];
-                    $localProduct->first_accordion_content = $inputProduct['first_accordion_content'];
-                    $localProduct->second_accordion_content = $inputProduct['second_accordion_content'];
-                    $localProduct->push();
-
                 }
+
+                if (is_array($inputProduct['str']) && count($inputProduct['str']) > 0) {
+                    foreach ($inputProduct['str'] as $inputSize) {
+                        if ($inputSize == null) {
+                            continue;
+                        }
+                        $localSize = Size::firstOrCreate(['name' => $inputSize]);
+                        $localProduct->sizes()->syncWithoutDetaching([$localSize->id]);
+                        $localSize->push();
+                    }
+                }
+
+                if (is_array($inputProduct['sko_str']) && count($inputProduct['sko_str']) > 0) {
+                    foreach ($inputProduct['sko_str'] as $inputSize) {
+                        if ($inputSize == null || $inputSize == '') {
+                            continue;
+                        }
+                        $localSize = Size::firstOrCreate(['name' => $inputSize]);
+                        $localProduct->sizes()->syncWithoutDetaching([$localSize->id]);
+                        $localSize->push();
+                    }
+                }
+                //обновляем/добавляем инфу о продукте
+                $localProduct->from_site_url = $site;
+                $localProduct->source_url = $inputProduct['url'];
+                $localProduct->name = $inputProduct['name'];
+                $localProduct->sku = $inputProduct['sku'];
+                $localProduct->old_price = (int)$inputProduct['old_price'];
+                $localProduct->new_price = (int)$inputProduct['new_price'];
+                $localProduct->regular_price = (int)$inputProduct['regular_price'];
+                $localProduct->description = $inputProduct['description'];
+                $localProduct->first_accordion_content = $inputProduct['first_accordion_content'];
+                $localProduct->second_accordion_content = $inputProduct['second_accordion_content'];
+                $localProduct->push();
+
             }
         }
 
     }
 
-    private function parseProducts($site, $category)
+    private function parseProducts($donor)
     {
-        $client = new Client([
-            'base_uri' => $site
-        ]);
+        $client = new Client();
 
-        $responseAmount = $client->request('GET', $category);
+        $responseAmount = $client->request('GET', $donor->url);
         $htmlAmount = $responseAmount->getBody()->getContents();
 
         $crawlerAmount = new Crawler($htmlAmount);

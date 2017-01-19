@@ -12,7 +12,7 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-xs-12 form-group">
-                    {!! Form::label('name', 'Name*', ['class' => 'control-label']) !!}
+                    {!! Form::label('name', 'Color name*', ['class' => 'control-label']) !!}
                     {!! Form::text('name', old('name'), ['class' => 'form-control', 'placeholder' => '']) !!}
                     <p class="help-block"></p>
                     @if($errors->has('name'))

@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'Missfashion',
+    'name' => 'Missfashion admin panel',
 
     /*
     |--------------------------------------------------------------------------
@@ -76,8 +76,8 @@ return [
      |
      */
 
-     'date_format' => 'd-m-Y',
-     'date_format_js' => 'dd-mm-yy',
+     'date_format' => 'Y-m-d',
+     'date_format_js' => 'yy-mm-dd',
 
     /*
     |--------------------------------------------------------------------------
@@ -182,7 +182,7 @@ return [
 
         Intervention\Image\ImageServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
-        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+        Yajra\Datatables\DatatablesServiceProvider::class,
         
         /*
          * Application Service Providers...

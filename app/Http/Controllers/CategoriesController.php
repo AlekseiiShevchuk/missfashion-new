@@ -3,13 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Donor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\StoreCategoriesRequest;
 use App\Http\Requests\UpdateCategoriesRequest;
+use App\Http\Controllers\Traits\FileUploadTrait;
+use Yajra\Datatables\Datatables;
 
 class CategoriesController extends Controller
 {
+    use FileUploadTrait;
+
     /**
      * Display a listing of Category.
      *
@@ -20,9 +25,32 @@ class CategoriesController extends Controller
         if (! Gate::allows('category_access')) {
             return abort(401);
         }
-        $categories = Category::all();
+        
+        if (request()->ajax()) {
+            $query = Category::query();
+            $query->with("parent");
+            $query->with("donors");
+            $table = Datatables::of($query);
+            $table->addColumn('massDelete', '&nbsp;');
+            $table->addColumn('actions', '&nbsp;');
+            $table->editColumn('actions', function ($row) {
+                $gateKey  = 'category_';
+                $routeKey = 'categories';
 
-        return view('categories.index', compact('categories'));
+                return view('actionsTemplate', compact('row', 'gateKey', 'routeKey'));
+            });
+            $table->editColumn('photo', function ($row) {
+                if($row->photo) { return '<a href="'. asset('uploads/' . $row->photo) .'" target="_blank"><img src="'. asset('uploads/thumb/' . $row->photo) .'"/>'; };
+            });
+            $table->editColumn('donors.url', function ($row) {
+                return '<span class="label label-info label-many">' . implode('</span><span class="label label-info label-many"> ',
+                        $row->donors->pluck('url')->toArray()) . '</span>';
+            });
+
+            return $table->make(true);
+        }
+
+        return view('categories.index');
     }
 
     /**
@@ -36,7 +64,8 @@ class CategoriesController extends Controller
             return abort(401);
         }
         $relations = [
-            'products' => \App\Product::get()->pluck('name', 'id'),
+            'parents' => \App\Category::get()->pluck('name', 'id')->prepend('Please select', ''),
+            'donors' => \App\Donor::get()->pluck('url', 'id'),
         ];
 
         return view('categories.create', $relations);
@@ -53,7 +82,9 @@ class CategoriesController extends Controller
         if (! Gate::allows('category_create')) {
             return abort(401);
         }
+        $request = $this->saveFiles($request);
         $category = Category::create($request->all());
+        $category->donors()->saveMany(Donor::find(array_filter((array)$request->input('donors'))));
 
         return redirect()->route('categories.index');
     }
@@ -71,7 +102,8 @@ class CategoriesController extends Controller
             return abort(401);
         }
         $relations = [
-            'products' => \App\Product::get()->pluck('name', 'id'),
+            'parents' => \App\Category::get()->pluck('name', 'id')->prepend('Please select', ''),
+            'donors' => \App\Donor::get()->pluck('url', 'id'),
         ];
 
         $category = Category::findOrFail($id);
@@ -91,8 +123,10 @@ class CategoriesController extends Controller
         if (! Gate::allows('category_edit')) {
             return abort(401);
         }
+        $request = $this->saveFiles($request);
         $category = Category::findOrFail($id);
         $category->update($request->all());
+        $category->donors()->saveMany(Donor::find(array_filter((array)$request->input('donors'))));
 
         return redirect()->route('categories.index');
     }
@@ -110,7 +144,8 @@ class CategoriesController extends Controller
             return abort(401);
         }
         $relations = [
-            'products' => \App\Product::get()->pluck('name', 'id'),
+            'parents' => \App\Category::get()->pluck('name', 'id')->prepend('Please select', ''),
+            'donors' => \App\Donor::get()->pluck('url', 'id'),
         ];
 
         $category = Category::findOrFail($id);

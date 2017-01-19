@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCategoriesTable extends Migration
+class CreateUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +12,15 @@ class CreateCategoriesTable extends Migration
      */
     public function up()
     {
-        if(! Schema::hasTable('categories')) {
-            Schema::create('categories', function (Blueprint $table) {
+        if(! Schema::hasTable('users')) {
+            Schema::create('users', function (Blueprint $table) {
                 $table->increments('id');
                 $table->string('name');
+                $table->string('email');
+                $table->string('password');
+                $table->integer('role_id')->unsigned()->nullable();
+                $table->foreign('role_id', 'fk_8644_rolerole_user')->references('id')->on('roles');
+                $table->string('remember_token')->nullable();
                 
                 $table->timestamps();
                 $table->softDeletes();
@@ -32,6 +37,6 @@ class CreateCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('users');
     }
 }

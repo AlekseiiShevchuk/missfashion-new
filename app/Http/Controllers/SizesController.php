@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\StoreSizesRequest;
 use App\Http\Requests\UpdateSizesRequest;
+use Yajra\Datatables\Datatables;
 
 class SizesController extends Controller
 {
@@ -20,9 +21,23 @@ class SizesController extends Controller
         if (! Gate::allows('size_access')) {
             return abort(401);
         }
-        $sizes = Size::all();
+        
+        if (request()->ajax()) {
+            $query = Size::query();
+            $table = Datatables::of($query);
+            $table->addColumn('massDelete', '&nbsp;');
+            $table->addColumn('actions', '&nbsp;');
+            $table->editColumn('actions', function ($row) {
+                $gateKey  = 'size_';
+                $routeKey = 'sizes';
 
-        return view('sizes.index', compact('sizes'));
+                return view('actionsTemplate', compact('row', 'gateKey', 'routeKey'));
+            });
+
+            return $table->make(true);
+        }
+
+        return view('sizes.index');
     }
 
     /**
@@ -35,11 +50,7 @@ class SizesController extends Controller
         if (! Gate::allows('size_create')) {
             return abort(401);
         }
-        $relations = [
-            'products' => \App\Product::get()->pluck('name', 'id'),
-        ];
-
-        return view('sizes.create', $relations);
+        return view('sizes.create');
     }
 
     /**
@@ -70,13 +81,9 @@ class SizesController extends Controller
         if (! Gate::allows('size_edit')) {
             return abort(401);
         }
-        $relations = [
-            'products' => \App\Product::get()->pluck('name', 'id'),
-        ];
-
         $size = Size::findOrFail($id);
 
-        return view('sizes.edit', compact('size') + $relations);
+        return view('sizes.edit', compact('size'));
     }
 
     /**
@@ -95,27 +102,6 @@ class SizesController extends Controller
         $size->update($request->all());
 
         return redirect()->route('sizes.index');
-    }
-
-
-    /**
-     * Display Size.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        if (! Gate::allows('size_view')) {
-            return abort(401);
-        }
-        $relations = [
-            'products' => \App\Product::get()->pluck('name', 'id'),
-        ];
-
-        $size = Size::findOrFail($id);
-
-        return view('sizes.show', compact('size') + $relations);
     }
 
 

@@ -9,17 +9,33 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package App
  * @property string $name
+ * @property string $parent
+ * @property string $photo
 */
 class Category extends Model
 {
     use SoftDeletes;
     
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'photo', 'parent_id'];
     
-    
-    public function products()
+
+    /**
+     * Set to null if empty
+     * @param $input
+     */
+    public function setParentIdAttribute($input)
     {
-        return $this->belongsToMany(Product::class, 'category_product')->withTrashed();
+        $this->attributes['parent_id'] = $input ? $input : null;
+    }
+    
+    public function parent()
+    {
+        return $this->belongsTo(Category::class, 'parent_id')->withTrashed();
+    }
+    
+    public function donors()
+    {
+        return $this->hasMany(Donor::class)->withTrashed();
     }
     
 }

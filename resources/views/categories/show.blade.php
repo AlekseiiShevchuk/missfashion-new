@@ -17,10 +17,18 @@
                             <td>{{ $category->name }}</td>
                         </tr>
                         <tr>
-                            <th>@lang('quickadmin.categories.fields.products')</th>
+                            <th>@lang('quickadmin.categories.fields.parent')</th>
+                            <td>{{ $category->parent->name or '' }}</td>
+                        </tr>
+                        <tr>
+                            <th>@lang('quickadmin.categories.fields.photo')</th>
+                            <td>@if($category->photo)<a href="{{ asset('uploads/' . $category->photo) }}" target="_blank"><img src="{{ asset('uploads/thumb/' . $category->photo) }}"/></a>@endif</td>
+                        </tr>
+                        <tr>
+                            <th>@lang('quickadmin.categories.fields.donors')</th>
                             <td>
-                                @foreach ($category->products as $singleProducts)
-                                    <span class="label label-info label-many">{{ $singleProducts->name }}</span>
+                                @foreach ($category->donors as $singleDonors)
+                                    <span class="label label-info label-many">{{ $singleDonors->url }}</span>
                                 @endforeach
                             </td>
                         </tr>

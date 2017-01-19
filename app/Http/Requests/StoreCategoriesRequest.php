@@ -24,7 +24,9 @@ class StoreCategoriesRequest extends FormRequest
     {
         return [
             'name' => 'required|unique:categories,name',
-            'name' => 'required|unique:categories,name',
+            
+            
+            'donors.*' => 'exists:donors,id',
         ];
     }
 }

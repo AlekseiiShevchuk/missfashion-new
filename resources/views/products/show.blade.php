@@ -17,10 +17,6 @@
                             <td>{{ $product->category->name or '' }}</td>
                         </tr>
                         <tr>
-                            <th>@lang('quickadmin.products.fields.from-site-url')</th>
-                            <td>{{ $product->from_site_url }}</td>
-                        </tr>
-                        <tr>
                             <th>@lang('quickadmin.products.fields.source-url')</th>
                             <td>{{ $product->source_url }}</td>
                         </tr>
@@ -53,7 +49,7 @@
                             <td>{!! $product->first_accordion_content !!}</td>
                         </tr>
                         <tr>
-                            <th>@lang('quickadmin.products.fields.s-accordion-contentecond')</th>
+                            <th>@lang('quickadmin.products.fields.second-accordion-content')</th>
                             <td>{!! $product->second_accordion_content !!}</td>
                         </tr>
                         <tr>

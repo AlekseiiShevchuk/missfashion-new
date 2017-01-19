@@ -15,9 +15,6 @@ class Image extends Model
     use SoftDeletes;
     
     protected $fillable = ['url'];
-
-    public function products()
-    {
-        return $this->belongsToMany(Product::class, 'image_product')->withTrashed();
-    }
+    
+    
 }

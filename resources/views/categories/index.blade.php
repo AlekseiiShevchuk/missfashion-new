@@ -14,7 +14,7 @@
         </div>
 
         <div class="panel-body">
-            <table class="table table-bordered table-striped {{ count($categories) > 0 ? 'datatable' : '' }} dt-select">
+            <table class="table table-bordered table-striped ajaxTable dt-select">
                 <thead>
                     <tr>
                         @can('category_delete')
@@ -22,44 +22,12 @@
                         @endcan
 
                         <th>@lang('quickadmin.categories.fields.name')</th>
+                        <th>@lang('quickadmin.categories.fields.parent')</th>
+                        <th>@lang('quickadmin.categories.fields.photo')</th>
+                        <th>@lang('quickadmin.categories.fields.donors')</th>
                         <th>&nbsp;</th>
                     </tr>
                 </thead>
-                
-                <tbody>
-                    @if (count($categories) > 0)
-                        @foreach ($categories as $category)
-                            <tr data-entry-id="{{ $category->id }}">
-                                @can('category_delete')
-                                    <td></td>
-                                @endcan
-
-                                <td>{{ $category->name }}</td>
-                                <td>
-                                    @can('category_view')
-                                    <a href="{{ route('categories.show',[$category->id]) }}" class="btn btn-xs btn-primary">@lang('quickadmin.view')</a>
-                                    @endcan
-                                    @can('category_edit')
-                                    <a href="{{ route('categories.edit',[$category->id]) }}" class="btn btn-xs btn-info">@lang('quickadmin.edit')</a>
-                                    @endcan
-                                    @can('category_delete')
-                                    {!! Form::open(array(
-                                        'style' => 'display: inline-block;',
-                                        'method' => 'DELETE',
-                                        'onsubmit' => "return confirm('".trans("quickadmin.are_you_sure")."');",
-                                        'route' => ['categories.destroy', $category->id])) !!}
-                                    {!! Form::submit(trans('quickadmin.delete'), array('class' => 'btn btn-xs btn-danger')) !!}
-                                    {!! Form::close() !!}
-                                    @endcan
-                                </td>
-                            </tr>
-                        @endforeach
-                    @else
-                        <tr>
-                            <td colspan="4">@lang('quickadmin.no_entries_in_table')</td>
-                        </tr>
-                    @endif
-                </tbody>
             </table>
         </div>
     </div>
@@ -70,5 +38,18 @@
         @can('category_delete')
             window.route_mass_crud_entries_destroy = '{{ route('categories.mass_destroy') }}';
         @endcan
+$(document).ready(function () {
+            window.dtDefaultOptions.ajax = '{!! route('categories.index') !!}';
+            window.dtDefaultOptions.columns = [
+                {data: 'massDelete', name: 'id', searchable: false, sortable: false},
+                {data: 'name', name: 'name'},
+                {data: 'parent.name', name: 'parent.name', defaultContent: ""},
+                {data: 'photo', name: 'photo', defaultContent: ""},
+                {data: 'donors.url', name: 'donors.url', defaultContent: ""},
+                
+                {data: 'actions', name: 'actions', searchable: false, sortable: false}
+            ];
+            processAjaxTables();
+        });
     </script>
 @endsection

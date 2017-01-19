@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\StoreColorsRequest;
 use App\Http\Requests\UpdateColorsRequest;
+use Yajra\Datatables\Datatables;
 
 class ColorsController extends Controller
 {
@@ -20,9 +21,23 @@ class ColorsController extends Controller
         if (! Gate::allows('color_access')) {
             return abort(401);
         }
-        $colors = Color::all();
+        
+        if (request()->ajax()) {
+            $query = Color::query();
+            $table = Datatables::of($query);
+            $table->addColumn('massDelete', '&nbsp;');
+            $table->addColumn('actions', '&nbsp;');
+            $table->editColumn('actions', function ($row) {
+                $gateKey  = 'color_';
+                $routeKey = 'colors';
 
-        return view('colors.index', compact('colors'));
+                return view('actionsTemplate', compact('row', 'gateKey', 'routeKey'));
+            });
+
+            return $table->make(true);
+        }
+
+        return view('colors.index');
     }
 
     /**
@@ -35,11 +50,7 @@ class ColorsController extends Controller
         if (! Gate::allows('color_create')) {
             return abort(401);
         }
-        $relations = [
-            'products' => \App\Product::get()->pluck('name', 'id'),
-        ];
-
-        return view('colors.create', $relations);
+        return view('colors.create');
     }
 
     /**
@@ -70,13 +81,9 @@ class ColorsController extends Controller
         if (! Gate::allows('color_edit')) {
             return abort(401);
         }
-        $relations = [
-            'products' => \App\Product::get()->pluck('name', 'id'),
-        ];
-
         $color = Color::findOrFail($id);
 
-        return view('colors.edit', compact('color') + $relations);
+        return view('colors.edit', compact('color'));
     }
 
     /**
@@ -95,27 +102,6 @@ class ColorsController extends Controller
         $color->update($request->all());
 
         return redirect()->route('colors.index');
-    }
-
-
-    /**
-     * Display Color.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        if (! Gate::allows('color_view')) {
-            return abort(401);
-        }
-        $relations = [
-            'products' => \App\Product::get()->pluck('name', 'id'),
-        ];
-
-        $color = Color::findOrFail($id);
-
-        return view('colors.show', compact('color') + $relations);
     }
 
 

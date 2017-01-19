@@ -24,7 +24,6 @@ class StoreSizesRequest extends FormRequest
     {
         return [
             'name' => 'required|unique:sizes,name',
-            'name' => 'required|unique:sizes,name',
         ];
     }
 }

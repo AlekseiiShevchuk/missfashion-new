@@ -25,7 +25,9 @@ class UpdateCategoriesRequest extends FormRequest
         return [
             
             'name' => 'required|unique:categories,name,'.$this->route('category'),
-            'name' => 'required|unique:categories,name,'.$this->route('category'),
+            
+            
+            'donors.*' => 'exists:donors,id',
         ];
     }
 }

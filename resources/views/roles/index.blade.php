@@ -70,5 +70,6 @@
         @can('role_delete')
             window.route_mass_crud_entries_destroy = '{{ route('roles.mass_destroy') }}';
         @endcan
+
     </script>
 @endsection

@@ -25,15 +25,13 @@ class UpdateProductsRequest extends FormRequest
         return [
             
             'category_id' => 'required',
-            
-            'source_url' => 'required',
-            
-            
+            'source_url' => 'required|unique:products,source_url,'.$this->route('product'),
+            'name' => 'required',
             
             
             
             
-            
+            'description' => 'required',
             
             
             'images.*' => 'exists:images,id',

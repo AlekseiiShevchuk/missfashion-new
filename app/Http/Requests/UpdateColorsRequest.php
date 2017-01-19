@@ -25,7 +25,6 @@ class UpdateColorsRequest extends FormRequest
         return [
             
             'name' => 'required|unique:colors,name,'.$this->route('color'),
-            'name' => 'required|unique:colors,name,'.$this->route('color'),
         ];
     }
 }

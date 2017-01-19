@@ -46,29 +46,11 @@
                 </ul>
             </li>
             @endcan
-            @can('image_access')
-            <li class="{{ $request->segment(1) == 'images' ? 'active' : '' }}">
-                <a href="{{ route('images.index') }}">
+            @can('donor_access')
+            <li class="{{ $request->segment(1) == 'donors' ? 'active' : '' }}">
+                <a href="{{ route('donors.index') }}">
                     <i class="fa fa-gears"></i>
-                    <span class="title">@lang('quickadmin.images.title')</span>
-                </a>
-            </li>
-            @endcan
-            
-            @can('color_access')
-            <li class="{{ $request->segment(1) == 'colors' ? 'active' : '' }}">
-                <a href="{{ route('colors.index') }}">
-                    <i class="fa fa-gears"></i>
-                    <span class="title">@lang('quickadmin.colors.title')</span>
-                </a>
-            </li>
-            @endcan
-            
-            @can('size_access')
-            <li class="{{ $request->segment(1) == 'sizes' ? 'active' : '' }}">
-                <a href="{{ route('sizes.index') }}">
-                    <i class="fa fa-gears"></i>
-                    <span class="title">@lang('quickadmin.sizes.title')</span>
+                    <span class="title">@lang('quickadmin.donor.title')</span>
                 </a>
             </li>
             @endcan
@@ -82,10 +64,52 @@
             </li>
             @endcan
             
+            @can('product_attribute_access')
+            <li>
+                <a href="#">
+                    <i class="fa fa-cubes"></i>
+                    <span class="title">@lang('quickadmin.product-attributes.title')</span>
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="sub-menu">
+                
+                @can('image_access')
+                <li class="{{ $request->segment(1) == 'images' ? 'active active-sub' : '' }}">
+                        <a href="{{ route('images.index') }}">
+                            <i class="fa fa-camera"></i>
+                            <span class="title">
+                                @lang('quickadmin.images.title')
+                            </span>
+                        </a>
+                    </li>
+                @endcan
+                @can('color_access')
+                <li class="{{ $request->segment(1) == 'colors' ? 'active active-sub' : '' }}">
+                        <a href="{{ route('colors.index') }}">
+                            <i class="fa fa-gears"></i>
+                            <span class="title">
+                                @lang('quickadmin.colors.title')
+                            </span>
+                        </a>
+                    </li>
+                @endcan
+                @can('size_access')
+                <li class="{{ $request->segment(1) == 'sizes' ? 'active active-sub' : '' }}">
+                        <a href="{{ route('sizes.index') }}">
+                            <i class="fa fa-expand"></i>
+                            <span class="title">
+                                @lang('quickadmin.sizes.title')
+                            </span>
+                        </a>
+                    </li>
+                @endcan
+                </ul>
+            </li>
+            @endcan
             @can('product_access')
             <li class="{{ $request->segment(1) == 'products' ? 'active' : '' }}">
                 <a href="{{ route('products.index') }}">
-                    <i class="fa fa-gears"></i>
+                    <i class="fa fa-server"></i>
                     <span class="title">@lang('quickadmin.products.title')</span>
                 </a>
             </li>

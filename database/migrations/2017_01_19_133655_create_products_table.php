@@ -16,15 +16,13 @@ class CreateProductsTable extends Migration
             Schema::create('products', function (Blueprint $table) {
                 $table->increments('id');
                 $table->integer('category_id')->unsigned()->nullable();
-                $table->foreign('category_id', 'fk_8327_categorycategory_product')->references('id')->on('categories');
-                $table->string('from_site_url')->nullable();
+                $table->foreign('category_id', 'fk_8660_categorycategory_product')->references('id')->on('categories');
                 $table->string('source_url');
-                $table->string('name')->nullable();
+                $table->string('name');
                 $table->string('sku')->nullable();
-                $table->integer('old_price')->nullable();
-                $table->integer('new_price')->nullable();
-                $table->integer('regular_price')->nullable();
-                $table->string('sko_str')->nullable();
+                $table->double('old_price', 15, 2)->nullable();
+                $table->double('new_price', 15, 2)->nullable();
+                $table->double('regular_price', 15, 2)->nullable();
                 $table->text('description')->nullable();
                 $table->text('first_accordion_content')->nullable();
                 $table->text('second_accordion_content')->nullable();

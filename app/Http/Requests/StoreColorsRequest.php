@@ -24,7 +24,6 @@ class StoreColorsRequest extends FormRequest
     {
         return [
             'name' => 'required|unique:colors,name',
-            'name' => 'required|unique:colors,name',
         ];
     }
 }

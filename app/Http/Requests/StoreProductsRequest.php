@@ -24,15 +24,13 @@ class StoreProductsRequest extends FormRequest
     {
         return [
             'category_id' => 'required',
-            
-            'source_url' => 'required',
-            
-            
+            'source_url' => 'required|unique:products,source_url',
+            'name' => 'required',
             
             
             
             
-            
+            'description' => 'required',
             
             
             'images.*' => 'exists:images,id',
