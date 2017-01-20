@@ -13,8 +13,6 @@ use Illuminate\Database\Eloquent\Model;
 */
 class Donor extends Model
 {
-    use SoftDeletes;
-    
     protected $fillable = ['url', 'category_id'];
     
 
@@ -29,7 +27,7 @@ class Donor extends Model
     
     public function category()
     {
-        return $this->belongsTo(Category::class, 'category_id')->withTrashed();
+        return $this->belongsTo(Category::class, 'category_id');
     }
     
 }

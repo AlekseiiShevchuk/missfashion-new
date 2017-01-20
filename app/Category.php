@@ -14,8 +14,6 @@ use Illuminate\Database\Eloquent\Model;
 */
 class Category extends Model
 {
-    use SoftDeletes;
-    
     protected $fillable = ['name', 'photo', 'parent_id'];
     
 
@@ -30,12 +28,12 @@ class Category extends Model
     
     public function parent()
     {
-        return $this->belongsTo(Category::class, 'parent_id')->withTrashed();
+        return $this->belongsTo(Category::class, 'parent_id');
     }
     
     public function donors()
     {
-        return $this->hasMany(Donor::class)->withTrashed();
+        return $this->hasMany(Donor::class);
     }
     
 }

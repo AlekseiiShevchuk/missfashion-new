@@ -115,6 +115,15 @@
             </li>
             @endcan
             
+            @can('slider_access')
+            <li class="{{ $request->segment(1) == 'sliders' ? 'active' : '' }}">
+                <a href="{{ route('sliders.index') }}">
+                    <i class="fa fa-align-left"></i>
+                    <span class="title">@lang('quickadmin.slider.title')</span>
+                </a>
+            </li>
+            @endcan
+            
 
             <li>
                 <a href="#logout" onclick="$('#logout').submit();">

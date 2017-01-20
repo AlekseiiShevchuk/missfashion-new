@@ -32,18 +32,6 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('user_management_access', function ($user) {
             return in_array($user->role_id, [1, 2]);
         });
-        Gate::define('user_management_create', function ($user) {
-            return in_array($user->role_id, [1, 2]);
-        });
-        Gate::define('user_management_edit', function ($user) {
-            return in_array($user->role_id, [1, 2]);
-        });
-        Gate::define('user_management_view', function ($user) {
-            return in_array($user->role_id, [1, 2]);
-        });
-        Gate::define('user_management_delete', function ($user) {
-            return in_array($user->role_id, [1]);
-        });
 
         // Auth gates for: Roles
         Gate::define('role_access', function ($user) {
@@ -89,9 +77,6 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('donor_edit', function ($user) {
             return in_array($user->role_id, [1]);
         });
-        Gate::define('donor_view', function ($user) {
-            return in_array($user->role_id, [1]);
-        });
         Gate::define('donor_delete', function ($user) {
             return in_array($user->role_id, [1]);
         });
@@ -128,9 +113,6 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('image_edit', function ($user) {
             return in_array($user->role_id, [1]);
         });
-        Gate::define('image_view', function ($user) {
-            return in_array($user->role_id, [1, 2]);
-        });
         Gate::define('image_delete', function ($user) {
             return in_array($user->role_id, [1]);
         });
@@ -145,9 +127,6 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('color_edit', function ($user) {
             return in_array($user->role_id, [1]);
         });
-        Gate::define('color_view', function ($user) {
-            return in_array($user->role_id, [1, 2]);
-        });
         Gate::define('color_delete', function ($user) {
             return in_array($user->role_id, [1]);
         });
@@ -161,9 +140,6 @@ class AuthServiceProvider extends ServiceProvider
         });
         Gate::define('size_edit', function ($user) {
             return in_array($user->role_id, [1]);
-        });
-        Gate::define('size_view', function ($user) {
-            return in_array($user->role_id, [1, 2]);
         });
         Gate::define('size_delete', function ($user) {
             return in_array($user->role_id, [1]);
@@ -183,6 +159,23 @@ class AuthServiceProvider extends ServiceProvider
             return in_array($user->role_id, [1, 2]);
         });
         Gate::define('product_delete', function ($user) {
+            return in_array($user->role_id, [1]);
+        });
+
+        // Auth gates for: Slider
+        Gate::define('slider_access', function ($user) {
+            return in_array($user->role_id, [1]);
+        });
+        Gate::define('slider_create', function ($user) {
+            return in_array($user->role_id, [1]);
+        });
+        Gate::define('slider_edit', function ($user) {
+            return in_array($user->role_id, [1]);
+        });
+        Gate::define('slider_view', function ($user) {
+            return in_array($user->role_id, [1, 2]);
+        });
+        Gate::define('slider_delete', function ($user) {
             return in_array($user->role_id, [1]);
         });
 

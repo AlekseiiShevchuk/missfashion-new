@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Category;
 use App\Color;
 use App\Donor;
 use App\Image;
@@ -51,7 +50,10 @@ class ParseProductsToDb extends Command
         $donors = Donor::all();
 
         foreach ($donors as $donor) {
-if(!$donor->category)
+            if (!$donor->category) {
+                continue;
+            }
+            $category = $donor->category;
             $productsByCategory = $this->parseProducts($donor);
             if (!is_array($productsByCategory) || count($productsByCategory) < 1) {
                 continue;
@@ -62,12 +64,12 @@ if(!$donor->category)
                 $localProduct = Product::firstOrNew([
                     'source_url' => $inputProduct['url']
                 ]);
+                $localProduct->name = '';
                 $localProduct->save();
                 $localProduct->fresh();
 
                 //разруливаем связи продукта с другими моделями
-                $categoryModel = Category::firstOrCreate(['name' => $category]);
-                $localProduct->category()->associate($categoryModel);
+                $localProduct->category()->associate($category);
 
                 if (is_array($inputProduct['image']) && count($inputProduct['image']) > 0) {
                     foreach ($inputProduct['image'] as $inputImage) {
@@ -113,7 +115,6 @@ if(!$donor->category)
                     }
                 }
                 //обновляем/добавляем инфу о продукте
-                $localProduct->from_site_url = $site;
                 $localProduct->source_url = $inputProduct['url'];
                 $localProduct->name = $inputProduct['name'];
                 $localProduct->sku = $inputProduct['sku'];
@@ -146,7 +147,7 @@ if(!$donor->category)
 
         $productsList = [];
         for ($currentPage = 1; $currentPage <= $numberPages; $currentPage++) {
-            $pageResponse = $client->request('GET', $category, [
+            $pageResponse = $client->request('GET', $donor->url, [
                 'query' => [
                     'limit' => self::LIMIT_PER_PAGE,
                     'p' => $currentPage

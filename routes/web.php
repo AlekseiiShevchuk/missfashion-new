@@ -1,7 +1,5 @@
 <?php
-Route::get('/', function () {
-    return redirect('/home');
-});
+Route::get('/', 'FrontController@index')->name('main');
 
 // Authentication Routes...
 $this->get('login', 'Auth\LoginController@showLoginForm')->name('auth.login');
@@ -37,4 +35,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('sizes_mass_destroy', ['uses' => 'SizesController@massDestroy', 'as' => 'sizes.mass_destroy']);
     Route::resource('products', 'ProductsController');
     Route::post('products_mass_destroy', ['uses' => 'ProductsController@massDestroy', 'as' => 'products.mass_destroy']);
+	Route::resource('sliders', 'SlidersController');
+    Route::post('sliders_mass_destroy', ['uses' => 'SlidersController@massDestroy', 'as' => 'sliders.mass_destroy']);
 });
