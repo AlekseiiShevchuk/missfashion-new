@@ -276,7 +276,7 @@ class ParseProductsToDb extends Command
         //make big image from url
         $localImgFile = $this->imageManipulator->load(file_get_contents($image->url));
         $localImgFile->resize(null, 800);
-        $dbPath = 'uploads/' . time() . '.jpg';
+        $dbPath = 'uploads/' . microtime() . '.jpg';
         $fullPath = public_path($dbPath);
         $localImgFile->save($fullPath, 'jpg');
         $this->imageOptimizer->optimize($fullPath);
@@ -285,7 +285,7 @@ class ParseProductsToDb extends Command
         //make small image from big image
         $localImgFile = $this->imageManipulator->read($fullPath);
         $localImgFile->resize(null, 300);
-        $dbPath = 'uploads/' . time() . '_small.jpg';
+        $dbPath = 'uploads/' . microtime() . '_small.jpg';
         $fullPath = public_path($dbPath);
         $localImgFile->save($fullPath, 'jpg');
         $this->imageOptimizer->optimize($fullPath);
