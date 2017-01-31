@@ -22,6 +22,7 @@
                         @endcan
 
                         <th>@lang('quickadmin.images.fields.url')</th>
+                        <th>local image path</th>
                         <th>&nbsp;</th>
                     </tr>
                 </thead>
@@ -40,7 +41,8 @@ $(document).ready(function () {
             window.dtDefaultOptions.columns = [
                 {data: 'massDelete', name: 'id', searchable: false, sortable: false},
                 {data: 'url', name: 'url'},
-                
+                {data: 'local_big_img', name: 'local_big_img'},
+
                 {data: 'actions', name: 'actions', searchable: false, sortable: false}
             ];
             processAjaxTables();

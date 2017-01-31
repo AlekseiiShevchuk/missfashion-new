@@ -28,6 +28,9 @@ class ParseProductsToDb extends Command
      */
     protected $description = 'Parse products and fill db (update old info, and add new products automatic)';
 
+    private $imageManipulator;
+    private $imageOptimizer;
+
     /**
      * Create a new command instance.
      *
@@ -36,6 +39,13 @@ class ParseProductsToDb extends Command
     public function __construct()
     {
         parent::__construct();
+        $this->imageManipulator = new \PHPixie\Image();
+        $this->imageOptimizer = (new \ImageOptimizer\OptimizerFactory())->get();
+
+        if (! file_exists(public_path('uploads'))) {
+            mkdir(public_path('uploads'), 0777);
+            mkdir(public_path('uploads/thumb'), 0777);
+        }
     }
 
     /**
@@ -77,6 +87,9 @@ class ParseProductsToDb extends Command
                             continue;
                         }
                         $localImage = Image::firstOrCreate(['url' => $inputImage]);
+                        if (empty($localImage->local_big_img) || empty($localImage->local_small_img)) {
+                            $this->downloadAndOptimizeImage($localImage);
+                        }
                         $localProduct->images()->syncWithoutDetaching([$localImage->id]);
                         $localImage->push();
                     }
@@ -257,5 +270,24 @@ class ParseProductsToDb extends Command
         }
 
         return $product;
+    }
+
+    private function downloadAndOptimizeImage(Image $image)
+    {
+        //make big image from url
+        $localImgFile = $this->imageManipulator->load(file_get_contents($image->url));
+        $localImgFile->resize(null, 800);
+        $path = public_path('uploads/' . time() . '.jpg');
+        $localImgFile->save($path, 'jpg');
+        $this->imageOptimizer->optimize($path);
+        $image->local_big_img = $path;
+
+        //make small image from big image
+        $localImgFile = $this->imageManipulator->load($path);
+        $localImgFile->resize(null, 300);
+        $path = public_path('uploads/' . time() . '_small.jpg');
+        $localImgFile->save($path, 'jpg');
+        $this->imageOptimizer->optimize($path);
+        $image->local_small_img = $path;
     }
 }

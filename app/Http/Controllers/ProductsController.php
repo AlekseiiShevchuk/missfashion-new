@@ -38,15 +38,15 @@ class ProductsController extends Controller
                 return view('actionsTemplate', compact('row', 'gateKey', 'routeKey'));
             });
             $table->editColumn('images.url', function ($row) {
-                return '<span class="label label-info label-many">' . implode('</span><span class="label label-info label-many"> ',
+                return '<span class="label label-info label-many">' . implode('</span><br><span class="label label-info label-many">',
                         $row->images->pluck('url')->toArray()) . '</span>';
             });
             $table->editColumn('colors.name', function ($row) {
-                return '<span class="label label-info label-many">' . implode('</span><span class="label label-info label-many"> ',
+                return '<span class="label label-info label-many">' . implode('</span><br><span class="label label-info label-many">',
                         $row->colors->pluck('name')->toArray()) . '</span>';
             });
             $table->editColumn('sizes.name', function ($row) {
-                return '<span class="label label-info label-many">' . implode('</span><span class="label label-info label-many"> ',
+                return '<span class="label label-info label-many">' . implode('</span><br><span class="label label-info label-many">',
                         $row->sizes->pluck('name')->toArray()) . '</span>';
             });
 

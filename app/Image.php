@@ -14,7 +14,7 @@ class Image extends Model
 {
     use SoftDeletes;
     
-    protected $fillable = ['url'];
+    protected $fillable = ['url','local_big_img','local_small_img'];
     
     
 }
