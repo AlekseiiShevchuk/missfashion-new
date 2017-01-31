@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Donor;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
+use App\Http\Controllers\Traits\FileUploadTrait;
 use App\Http\Requests\StoreCategoriesRequest;
 use App\Http\Requests\UpdateCategoriesRequest;
-use App\Http\Controllers\Traits\FileUploadTrait;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Yajra\Datatables\Datatables;
 
 class CategoriesController extends Controller
@@ -22,10 +22,10 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        if (! Gate::allows('category_access')) {
+        if (!Gate::allows('category_access')) {
             return abort(401);
         }
-        
+
         if (request()->ajax()) {
             $query = Category::query();
             $query->with("parent");
@@ -34,13 +34,15 @@ class CategoriesController extends Controller
             $table->addColumn('massDelete', '&nbsp;');
             $table->addColumn('actions', '&nbsp;');
             $table->editColumn('actions', function ($row) {
-                $gateKey  = 'category_';
+                $gateKey = 'category_';
                 $routeKey = 'categories';
 
                 return view('actionsTemplate', compact('row', 'gateKey', 'routeKey'));
             });
             $table->editColumn('photo', function ($row) {
-                if($row->photo) { return '<a href="'. asset('uploads/' . $row->photo) .'" target="_blank"><img src="'. asset('uploads/thumb/' . $row->photo) .'"/>'; };
+                if ($row->photo) {
+                    return '<a href="' . asset('uploads/' . $row->photo) . '" target="_blank"><img src="' . asset('uploads/thumb/' . $row->photo) . '"/>';
+                };
             });
             $table->editColumn('donors.url', function ($row) {
                 return '<span class="label label-info label-many">' . implode('</span><span class="label label-info label-many"> ',
@@ -60,7 +62,7 @@ class CategoriesController extends Controller
      */
     public function create()
     {
-        if (! Gate::allows('category_create')) {
+        if (!Gate::allows('category_create')) {
             return abort(401);
         }
         $relations = [
@@ -74,12 +76,12 @@ class CategoriesController extends Controller
     /**
      * Store a newly created Category in storage.
      *
-     * @param  \App\Http\Requests\StoreCategoriesRequest  $request
+     * @param  \App\Http\Requests\StoreCategoriesRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreCategoriesRequest $request)
     {
-        if (! Gate::allows('category_create')) {
+        if (!Gate::allows('category_create')) {
             return abort(401);
         }
         $request = $this->saveFiles($request);
@@ -93,12 +95,12 @@ class CategoriesController extends Controller
     /**
      * Show the form for editing Category.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        if (! Gate::allows('category_edit')) {
+        if (!Gate::allows('category_edit')) {
             return abort(401);
         }
         $relations = [
@@ -114,18 +116,22 @@ class CategoriesController extends Controller
     /**
      * Update Category in storage.
      *
-     * @param  \App\Http\Requests\UpdateCategoriesRequest  $request
-     * @param  int  $id
+     * @param  \App\Http\Requests\UpdateCategoriesRequest $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateCategoriesRequest $request, $id)
     {
-        if (! Gate::allows('category_edit')) {
+        if (!Gate::allows('category_edit')) {
             return abort(401);
         }
         $request = $this->saveFiles($request);
         $category = Category::findOrFail($id);
         $category->update($request->all());
+        foreach ($category->donors as $donor) {
+            $donor->category()->dissociate();
+            $donor->save();
+        }
         $category->donors()->saveMany(Donor::find(array_filter((array)$request->input('donors'))));
 
         return redirect()->route('categories.index');
@@ -135,12 +141,12 @@ class CategoriesController extends Controller
     /**
      * Display Category.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        if (! Gate::allows('category_view')) {
+        if (!Gate::allows('category_view')) {
             return abort(401);
         }
         $relations = [
@@ -157,12 +163,12 @@ class CategoriesController extends Controller
     /**
      * Remove Category from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        if (! Gate::allows('category_delete')) {
+        if (!Gate::allows('category_delete')) {
             return abort(401);
         }
         $category = Category::findOrFail($id);
@@ -178,7 +184,7 @@ class CategoriesController extends Controller
      */
     public function massDestroy(Request $request)
     {
-        if (! Gate::allows('category_delete')) {
+        if (!Gate::allows('category_delete')) {
             return abort(401);
         }
         if ($request->input('ids')) {
