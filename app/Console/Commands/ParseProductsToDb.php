@@ -44,7 +44,6 @@ class ParseProductsToDb extends Command
 
         if (! file_exists(public_path('uploads'))) {
             mkdir(public_path('uploads'), 0777);
-            mkdir(public_path('uploads/thumb'), 0777);
         }
     }
 
@@ -283,7 +282,7 @@ class ParseProductsToDb extends Command
         $image->local_big_img = $path;
 
         //make small image from big image
-        $localImgFile = $this->imageManipulator->load($path);
+        $localImgFile = $this->imageManipulator->read($path);
         $localImgFile->resize(null, 300);
         $path = public_path('uploads/' . time() . '_small.jpg');
         $localImgFile->save($path, 'jpg');
