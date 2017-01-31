@@ -90,6 +90,7 @@ class ParseProductsToDb extends Command
                             $this->downloadAndOptimizeImage($localImage);
                         }
                         $localProduct->images()->syncWithoutDetaching([$localImage->id]);
+                        $localImage->touch();
                         $localImage->push();
                     }
                 }
