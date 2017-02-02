@@ -1,5 +1,6 @@
 <?php
 Route::get('/', 'FrontController@index')->name('main');
+Route::get('/show/{id}/', 'FrontController@show');
 
 // Authentication Routes...
 $this->get('login', 'Auth\LoginController@showLoginForm')->name('auth.login');
