@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Product;
+use App\Slider;
 use Illuminate\Http\Request;
 
 class FrontController extends Controller
@@ -28,9 +29,11 @@ class FrontController extends Controller
         }
 
         $products = Product::where($where)->paginate(16);
+        $sliders = Slider::where('is_active', '1')->get();
         return view('front.index', [
             'products' => $products,
             'categories' => $categories,
+            'sliders' => $sliders
         ]);
     }
 
@@ -43,6 +46,12 @@ class FrontController extends Controller
      */
     public function show($id)
     {
-        //
+        $where = [];
+        $products = Product::where($where)->latest('created_at')->limit(4)->get();
+        $productId = Product::find($id);
+        return view('front.show', [
+            'product' => $productId,
+            'products' => $products
+        ]);
     }
 }
