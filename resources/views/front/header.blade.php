@@ -11,23 +11,11 @@
                 <a class="navbar-brand" href="/">Missfashion</a>
             </div>
             <div class="collapse navbar-collapse" id="collapse-1">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a href="#">Link</a>
-                    </li>
-                    <li>
-                        <a href="#">Link</a>
-                    </li>
-                    <li>
-                        <a href="#">Link</a>
-                    </li>
+                <ul class="nav navbar-nav navbar-right" id="main-menu">
+                    @foreach($categories as $key => $value)
+                        <li><a  href="{{route('main')}}/?cat={{$key}}">{{$value}}</a></li>
+                    @endforeach
                 </ul>
-                <form class="navbar-form navbar-right">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search">
-                    </div>
-                    <button type="submit" class="btn btn-success">Submit</button>
-                </form>
             </div>
         </div>
     </nav>

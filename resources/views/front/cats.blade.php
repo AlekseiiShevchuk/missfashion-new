@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="col-sm-4 col-md-4 text-right">
-                <form class="form-inline" action="?search=" method="GET">
+                <form id="search-cat" class="form-inline" method="GET">
                     <div class="form-group">
                         <input type="text" name="search" class="form-control" placeholder="Search">
                     </div>

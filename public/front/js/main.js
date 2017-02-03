@@ -28,4 +28,29 @@ $(function() {
         arrows: false
     });
 
+    $('#main-menu > li a').each(function(){
+        var current = location.href,
+            target= $(this).attr('href');
+
+        if ( target == current)
+        {
+            $(this).parent().addClass('active');
+        }
+    });
+
+    $("#search-cat").submit(function( event ) {
+
+        var current = location.href;
+
+        if (location.search !== '') {
+            location.href = current + '&' + 'search=' + $( "input[name='search']" ).val();
+            // console.log(current +'&' + 'search=' + $( "input[name='search']" ).val());
+            return false;
+        } else {
+            location.href = current + '?' + 'search=' + $( "input[name='search']" ).val();
+            // console.log(current +'?' + 'search=' + $( "input[name='search']" ).val());
+            return false;
+        }
+    });
+
 });

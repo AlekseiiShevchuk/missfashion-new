@@ -16,8 +16,8 @@
                             <h4 style="height: 38px;overflow: hidden;"><strong>{{ $product->name }}</strong></h4>
                             <p>{{ mb_substr($product->description, 0, 55) }} ... </p>
                             <div class="price">
-                                <span class="text-primary"> USD {{$product->new_price}} </span>
-                                <span class="text-danger"><strike>USD {{ $product->old_price }}</strike></span>
+                                <span class="text-primary"> KR {{$product->new_price}} </span>
+                                <span class="text-danger"><strike>KR {{ $product->old_price }}</strike></span>
                             </div>
                             <hr>
                             <p>
@@ -27,7 +27,9 @@
                     </div>
                 </div>
             @endforeach
-            <div class="row text-center">{{ $products->links() }}</div>
+            <div class="row text-center">
+                <div class="container"> {{ $products->links() }}</div>
+            </div>
         </div>
     </section>
 
