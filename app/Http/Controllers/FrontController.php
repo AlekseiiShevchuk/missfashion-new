@@ -16,7 +16,7 @@ class FrontController extends Controller
      */
     public function index(Request $request)
     {
-        $categories = Category::all()->take(5)->pluck('name', 'id');
+        $categories = Category::all()->pluck('name', 'id');
         $where = [];
 
         if ($request->get('cat')) {
@@ -46,7 +46,7 @@ class FrontController extends Controller
      */
     public function show($id)
     {
-        $categories = Category::all()->take(5)->pluck('name', 'id');
+        $categories = Category::all()->pluck('name', 'id');
         $where = [];
         $products = Product::where($where)->latest('created_at')->limit(4)->get();
         $productId = Product::find($id);

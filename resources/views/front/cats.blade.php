@@ -13,7 +13,7 @@
                             </span>
                             <ul>
                                 @foreach($categories as $key => $value)
-                                    <li><a href="{{route('main')}}?cat={{$key}}">Sort by <strong>{{$value}}</strong></a></li>
+                                    <li><a href="{{route('main')}}/?cat={{$key}}">Sort by <strong>{{$value}}</strong></a></li>
                                 @endforeach
                             </ul>
                         </li>
