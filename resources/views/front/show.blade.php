@@ -22,38 +22,47 @@
                     </div>
                 </div>
                 <div class="col-md-7">
-                    <div class="product-info">
+                    <div class="product-info section">
                         <h1>{{ $product->name }}</h1>
+                        <p>Varenummer: {{ $product->sku }}</p>
                         <div class="price">
-                            <span class="text-primary"> USD {{$product->new_price}} </span>
-                            <span class="text-danger"><strike>USD {{ $product->old_price }}</strike></span>
+                            <span class="text-primary"> KR {{$product->new_price}} </span>
+                            <span class="text-danger"><strike>KR {{ $product->old_price }}</strike></span>
                         </div>
                         <hr>
                         <p>{{ $product->description }}</p>
                         <a href="{{ $product->source_url }}" class="btn btn-primary">Buy</a>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="content">
-            <div class="container">
-                <div class="product-tabs">
-                    <!-- Nav tabs -->
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" class="active"><a href="#tab-1" role="tab" data-toggle="tab">Additional Information</a></li>
-                        <li role="presentation"><a href="#tab-2" role="tab" data-toggle="tab">Reviews</a></li>
-                        <li role="presentation"><a href="#tab-3" role="tab" data-toggle="tab">Levering & Retur</a></li>
-                    </ul>
-                    <!-- Tab panes -->
-                    <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane active" id="tab-1">
-                            <h3>Additional Information</h3>
-                        </div>
-                        <div role="tabpanel" class="tab-pane" id="tab-2">
-                            <h3>Reviews</h3>
-                        </div>
-                        <div role="tabpanel" class="tab-pane" id="tab-3">
-                            <h3>Levering & Retur</h3>
+                    <div class="extra-product-information">
+                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="headingOne">
+                                    <h4 class="panel-title">
+                                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            STØRRELSESGUIDE
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseOne" class="panel-collapse collapse" role="tabpanel">
+                                    <div class="panel-body">
+                                        {!! $product->first_accordion_content !!}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="headingOne">
+                                    <h4 class="panel-title">
+                                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">
+                                            LEVERING & RETUR
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel">
+                                    <div class="panel-body">
+                                        {!! $product->second_accordion_content !!}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -71,8 +80,8 @@
                                     <h4 style="height: 38px;overflow: hidden;"><strong>{{ $product->name }}</strong></h4>
                                     <p>{{ mb_substr($product->description, 0, 55) }} ... </p>
                                     <div class="price">
-                                        <span class="text-primary"> USD {{$product->new_price}} </span>
-                                        <span class="text-danger"><strike>USD {{ $product->old_price }}</strike></span>
+                                        <span class="text-primary"> KR {{$product->new_price}} </span>
+                                        <span class="text-danger"><strike>KR {{ $product->old_price }}</strike></span>
                                     </div>
                                     <hr>
                                     <p>

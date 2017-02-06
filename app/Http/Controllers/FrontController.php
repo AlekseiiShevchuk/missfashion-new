@@ -16,7 +16,7 @@ class FrontController extends Controller
      */
     public function index(Request $request)
     {
-        $categories = Category::all()->take(7)->pluck('name', 'id');
+        $categories = Category::all()->take(5)->pluck('name', 'id');
         $where = [];
 
         if ($request->get('cat')) {
@@ -30,13 +30,13 @@ class FrontController extends Controller
 
         $products = Product::where($where)->paginate(16);
         $sliders = Slider::where('is_active', '1')->get();
+
         return view('front.index', [
             'products' => $products,
             'categories' => $categories,
             'sliders' => $sliders
         ]);
     }
-
 
     /**
      * Display the specified resource.
@@ -46,12 +46,15 @@ class FrontController extends Controller
      */
     public function show($id)
     {
+        $categories = Category::all()->take(5)->pluck('name', 'id');
         $where = [];
         $products = Product::where($where)->latest('created_at')->limit(4)->get();
         $productId = Product::find($id);
+
         return view('front.show', [
             'product' => $productId,
-            'products' => $products
+            'products' => $products,
+            'categories' => $categories
         ]);
     }
 }
