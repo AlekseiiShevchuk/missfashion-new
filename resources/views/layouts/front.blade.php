@@ -6,6 +6,15 @@
     <title>Missfashion Shop | Welcome</title>
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('/front/css/bootstrap.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('/front/css/style.min.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="{{ URL::asset('/front/js/bootstrap.min.js') }}"></script>
+    <script src="{{ URL::asset('/front/js/slick.min.js') }}"></script>
+    <script src="{{ URL::asset('/front/js/main.js') }}"></script>
+    @php
+        include_once __DIR__ . "../../../../public/revslider/embed.php";
+        RevSliderEmbedder::headIncludes(false);
+    @endphp
 </head>
 <body>
 
@@ -14,10 +23,5 @@
     @yield('content')
 
     @include('front.footer')
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script src="{{ URL::asset('/front/js/bootstrap.min.js') }}"></script>
-    <script src="{{ URL::asset('/front/js/slick.min.js') }}"></script>
-    <script src="{{ URL::asset('/front/js/main.js') }}"></script>
 </body>
 </html>
