@@ -12,19 +12,19 @@
     <script src="{{ URL::asset('/front/js/slick.min.js') }}"></script>
     <script src="{{ URL::asset('/front/js/main.js') }}"></script>
     @php
-    $filename = __DIR__ . "../../../../public/revslider/embed.php";
-    if (file_exists($filename)){
-        include_once __DIR__ . "../../../../public/revslider/embed.php";
-        RevSliderEmbedder::headIncludes(false);
-    }
+        $filename = __DIR__ . "../../../../public/revslider/embed.php";
+        if (file_exists($filename)){
+            include_once __DIR__ . "../../../../public/revslider/embed.php";
+            RevSliderEmbedder::headIncludes(false);
+        }
     @endphp
 </head>
 <body>
 
-    @include('front.header')
+@include('front.header')
 
-    @yield('content')
+@yield('content')
 
-    @include('front.footer')
+@include('front.footer')
 </body>
 </html>
