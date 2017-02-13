@@ -1,3 +1,4 @@
+<header>
 <div class="header__top">
     <div class="container">
         <div class="social-icons">
@@ -47,3 +48,4 @@
             </div>
         </div>
 </nav>
+</header>
