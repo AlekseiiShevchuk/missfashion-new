@@ -10,6 +10,6 @@
 <div class="row">
 @php
     include_once __DIR__ . "../../../../public/revslider/embed.php";
-    RevSliderEmbedder::putRevSlider("classic-carousel1");
+    RevSliderEmbedder::putRevSlider("main-page-slider");
 @endphp
 </div>
