@@ -12,9 +12,8 @@
     <script src="{{ URL::asset('/front/js/slick.min.js') }}"></script>
     <script src="{{ URL::asset('/front/js/main.js') }}"></script>
     @php
-    $filename = __DIR__ . "../../../../public/revslider/embed.php";
-    if (file_exists($filename)){
-        include_once $filename;
+    if (file_exists(__DIR__ . "../../../../public/revslider/embed.php")){
+        include_once __DIR__ . "../../../../public/revslider/embed.php";
         RevSliderEmbedder::headIncludes(false);
     }
     @endphp
