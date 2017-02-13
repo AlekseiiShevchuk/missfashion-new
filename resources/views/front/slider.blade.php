@@ -9,7 +9,10 @@
 {{--</div>--}}
 <div class="row">
 @php
-    include_once __DIR__ . "../../../../public/revslider/embed.php";
+    $filename = __DIR__ . "../../../../public/revslider/embed.php";
+    if (file_exists($filename)){
+    include_once $filename;
     RevSliderEmbedder::putRevSlider("main-page-slider");
+}
 @endphp
 </div>
