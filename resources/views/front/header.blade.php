@@ -1,5 +1,20 @@
-<header>
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<div class="header__top">
+    <div class="container">
+        <div class="social-icons">
+            <a href="" class="social-icons__link">
+                <i class="fa fa-facebook" aria-hidden="true"></i>
+            </a>
+            <a href="" class="social-icons__link">
+                <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+            <a href="" class="social-icons__link">
+                <i class="fa fa-instagram" aria-hidden="true"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<nav class="navbar navbar-inverse main-navbar" role="navigation">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#collapse-1">
@@ -31,5 +46,4 @@
                 @endif
             </div>
         </div>
-    </nav>
-</header>
+</nav>

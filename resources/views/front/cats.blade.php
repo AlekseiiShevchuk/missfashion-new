@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-sm-8 col-md-8">
                 <div class="catalog-ordering">
-                    <ul class="orderby order-dropdown">
+                    <ul class="orderby order-dropdown col-md-4">
                         <li>
                             <span class="current-li">
                                 <span class="current-li-content">
@@ -12,6 +12,7 @@
                                 <i class="fa fa-angle-down" aria-hidden="true"></i>
                             </span>
                             <ul>
+                                <li><a href="{{ route('main') }}">All <strong>Categories</strong></a></li>
                                 @foreach($categories as $key => $value)
                                     <li><a href="{{route('main')}}/?cat={{$key}}">Sort by <strong>{{$value}}</strong></a></li>
                                 @endforeach

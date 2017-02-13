@@ -9,8 +9,9 @@
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('/front/css/style.min.css') }}">
 </head>
 <body>
-
-    @include('front.header')
+    <header>
+        @include('front.header')
+    </header>
 
     @yield('content')
 
