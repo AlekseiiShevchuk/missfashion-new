@@ -13,7 +13,7 @@
     <script src="{{ URL::asset('/front/js/main.js') }}"></script>
     @php
         $filename = __DIR__ . "../../../../public/revslider/embed.php";
-        if (file_exists($filename)){
+        if (env('INCLUDE_REV_SLIDER')){
             include_once __DIR__ . "../../../../public/revslider/embed.php";
             RevSliderEmbedder::headIncludes(false);
         }
