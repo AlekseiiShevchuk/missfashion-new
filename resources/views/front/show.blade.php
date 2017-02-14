@@ -24,12 +24,29 @@
                 <div class="col-md-7">
                     <div class="product-info section">
                         <h1>{{ $product->name }}</h1>
-                        <p>Varenummer: {{ $product->sku }}</p>
+                        <div>
+                            <span><strong>Varenummer:</strong> {{ $product->sku }}</span>
+                            <span><strong>Category:</strong> <a href="{{route('main')}}/?cat={{$product->category->id}}">{{ $product->category->name }}</a></span>
+                        </div>
                         <div class="price">
-                            <span class="text-primary"> KR {{$product->new_price}} </span>
                             <span class="text-danger"><strike>KR {{ $product->old_price }}</strike></span>
+                            <span class="text-primary"> KR {{$product->new_price}} </span>
                         </div>
                         <hr>
+                        <div class="sizes">
+                            <strong>STR:</strong>
+                            @foreach($product->sizes as $size)
+                                <span class="label label-default">{{ $size->name }}</span>
+                            @endforeach
+                        </div>
+                        <div class="sizes">
+                            <strong>FARVE:</strong>
+                            @foreach($product->colors as $color)
+                                <span class="label label-default">{{ $color->name }}</span>
+                            @endforeach
+                        </div>
+                        <hr>
+                        <h4>BESKRIVELSE</h4>
                         <p>{{ $product->description }}</p>
                         <a href="{{ $product->source_url }}" class="btn btn-primary">Buy</a>
                     </div>
@@ -75,7 +92,7 @@
                     @foreach($products as $product)
                         <div class="col-sm-6 col-md-3">
                             <div class="thumbnail">
-                                <img src="/{{$product->images()->first()->local_small_img}}">
+                                <a href="{{ action('FrontController@show', $product->id) }}"><img src="/{{$product->images()->first()->local_small_img}}"></a>
                                 <div class="caption">
                                     <h4 style="height: 38px;overflow: hidden;"><strong>{{ $product->name }}</strong></h4>
                                     <p>{{ mb_substr($product->description, 0, 55) }} ... </p>
