@@ -42,15 +42,32 @@ $(function() {
 
         var current = location.href;
 
+        if (location.search === '?page=') {
+            location.href = '?' + 'search=' + $( "input[name='search']" ).val();
+            return false;
+        }
+
         if (location.search !== '') {
             location.href = current + '&' + 'search=' + $( "input[name='search']" ).val();
             // console.log(current +'&' + 'search=' + $( "input[name='search']" ).val());
             return false;
-        } else {
+        }
+        else {
             location.href = current + '?' + 'search=' + $( "input[name='search']" ).val();
             // console.log(current +'?' + 'search=' + $( "input[name='search']" ).val());
             return false;
         }
     });
+
+    $('.order-dropdown li ul li > a').each(function () {
+        var current = location.href,
+            target = $(this).attr('href'),
+            text = $(this).html();
+        if ( target == current)
+        {
+            $('.order-dropdown .current-li-content').html(text);
+        }
+
+    })
 
 });
