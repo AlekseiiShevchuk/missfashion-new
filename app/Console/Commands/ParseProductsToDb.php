@@ -284,6 +284,8 @@ class ParseProductsToDb extends Command
 
     private function downloadAndOptimizeImage(Image $image)
     {
+        if(filesize(file_get_contents($image->url)) > 5*1000)
+        {
         //make big image from url
         $localImgFile = $this->imageManipulator->load(file_get_contents($image->url));
         $localImgFile->resize(null, 800);
@@ -301,5 +303,6 @@ class ParseProductsToDb extends Command
         $localImgFile->save($fullPath, 'jpg');
         $this->imageOptimizer->optimize($fullPath);
         $image->local_small_img = $dbPath;
+        }
     }
 }
