@@ -7,6 +7,7 @@ use App\Donor;
 use App\Image;
 use App\Product;
 use App\Size;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 use Symfony\Component\DomCrawler\Crawler;
@@ -141,7 +142,16 @@ class ParseProductsToDb extends Command
 
             }
         }
+        $this->info('Parser handled ' . count($inputProductsUrlArray) . ' products');
 
+        $twoDaysAgo = Carbon::now()->subDay(2);
+        $allProducts = Product::where('updated_at', '<',$twoDaysAgo)->get();
+        $numberOfDeletedProducts = count($allProducts);
+        foreach ($allProducts as $oldProduct){
+            $oldProduct->delete();
+        }
+
+        $this->info('Deleted ' . $numberOfDeletedProducts . ' old products');
     }
 
     private function parseProducts($donor)
