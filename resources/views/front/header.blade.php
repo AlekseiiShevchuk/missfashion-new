@@ -1,7 +1,8 @@
 <header>
 <div class="header__top">
     <div class="container">
-        <div class="social-icons">
+        <div class="row">
+        <div class="social-icons col-md-6 pull-left">
             <a href="" class="social-icons__link">
                 <i class="fa fa-facebook" aria-hidden="true"></i>
             </a>
@@ -11,6 +12,12 @@
             <a href="" class="social-icons__link">
                 <i class="fa fa-instagram" aria-hidden="true"></i>
             </a>
+        </div>
+        <div class="col-md-3 pull-right">
+            <form id="search-cat" class="form" method="GET">
+                <input type="text" name="search" class="form-control" placeholder="Search">
+            </form>
+        </div>
         </div>
     </div>
 </div>
