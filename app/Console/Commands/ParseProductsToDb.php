@@ -284,25 +284,26 @@ class ParseProductsToDb extends Command
 
     private function downloadAndOptimizeImage(Image $image)
     {
-
+        $response_code = get_headers('http://www.envylook.dk/media/extendware/ewimageopt/media/inline/5/a/sia-kjole-bordeaux-d82.jpg')[0];
+        if (!strstr($response_code,'200 OK')){
+            return;
+        };
         //make big image from url
         $localImgFile = $this->imageManipulator->load(file_get_contents($image->url));
         $localImgFile->resize(null, 800);
         $dbPath = 'uploads/' . microtime(true) . '.jpg';
         $fullPath = public_path($dbPath);
         $localImgFile->save($fullPath, 'jpg');
-        if (filesize($fullPath) > 8 * 1000) {
-            $this->imageOptimizer->optimize($fullPath);
-            $image->local_big_img = $dbPath;
+        $this->imageOptimizer->optimize($fullPath);
+        $image->local_big_img = $dbPath;
 
-            //make small image from big image
-            $localImgFile = $this->imageManipulator->read($fullPath);
-            $localImgFile->resize(null, 300);
-            $dbPath = 'uploads/' . microtime(true) . '_small.jpg';
-            $fullPath = public_path($dbPath);
-            $localImgFile->save($fullPath, 'jpg');
-            $this->imageOptimizer->optimize($fullPath);
-            $image->local_small_img = $dbPath;
-        }
+        //make small image from big image
+        $localImgFile = $this->imageManipulator->read($fullPath);
+        $localImgFile->resize(null, 300);
+        $dbPath = 'uploads/' . microtime(true) . '_small.jpg';
+        $fullPath = public_path($dbPath);
+        $localImgFile->save($fullPath, 'jpg');
+        $this->imageOptimizer->optimize($fullPath);
+        $image->local_small_img = $dbPath;
     }
 }
