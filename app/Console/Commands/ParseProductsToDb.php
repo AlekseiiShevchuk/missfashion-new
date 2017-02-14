@@ -41,7 +41,7 @@ class ParseProductsToDb extends Command
     {
         parent::__construct();
         $this->imageManipulator = new \PHPixie\Image();
-        $this->imageOptimizer = (new \ImageOptimizer\OptimizerFactory())->get('jpegoptim');
+        $this->imageOptimizer = (new \ImageOptimizer\OptimizerFactory())->get();
 
         if (! file_exists(public_path('uploads'))) {
             mkdir(public_path('uploads'), 0777);
