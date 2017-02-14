@@ -141,7 +141,7 @@ class ParseProductsToDb extends Command
                 $localProduct->second_accordion_content = $inputProduct['second_accordion_content'];
                 $localProduct->push();
 
-                if($localProduct->images()->count() < 1){
+                if($localProduct->images()->count() < 1 || strlen($localProduct->name < 3)){
                     $localProduct->delete();
                 }
 
