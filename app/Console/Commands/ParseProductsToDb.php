@@ -141,10 +141,11 @@ class ParseProductsToDb extends Command
                 $localProduct->second_accordion_content = $inputProduct['second_accordion_content'];
                 $localProduct->push();
 
-                if($localProduct->images()->count() < 1 || strlen($localProduct->name < 3)){
-                    echo 'Images count: ',  $localProduct->images()->count(), "\n";
-                    echo 'Name length: ',  $localProduct->name, "\n";
-                    //$localProduct->delete();
+                if ($localProduct->images()->count() < 1 || strlen($localProduct->name) < 3) {
+                    echo 'Images count: ', $localProduct->images()->count(), "\n";
+                    echo 'Name length: ', strlen($localProduct->name), "\n";
+                    echo 'Deleting ', "\n";
+                    $localProduct->delete();
                 }
 
             }
@@ -288,26 +289,26 @@ class ParseProductsToDb extends Command
         if (!strstr($response_code, '200 OK')) {
             return;
         };
-        try{
-        //make big image from url
-        $localImgFile = $this->imageManipulator->load(file_get_contents($image->url));
-        $localImgFile->resize(null, 800);
-        $dbPath = 'uploads/' . microtime(true) . '.jpg';
-        $fullPath = public_path($dbPath);
-        $localImgFile->save($fullPath, 'jpg');
-        $this->imageOptimizer->optimize($fullPath);
-        $image->local_big_img = $dbPath;
+        try {
+            //make big image from url
+            $localImgFile = $this->imageManipulator->load(file_get_contents($image->url));
+            $localImgFile->resize(null, 800);
+            $dbPath = 'uploads/' . microtime(true) . '.jpg';
+            $fullPath = public_path($dbPath);
+            $localImgFile->save($fullPath, 'jpg');
+            $this->imageOptimizer->optimize($fullPath);
+            $image->local_big_img = $dbPath;
 
-        //make small image from big image
-        $localImgFile = $this->imageManipulator->read($fullPath);
-        $localImgFile->resize(null, 300);
-        $dbPath = 'uploads/' . microtime(true) . '_small.jpg';
-        $fullPath = public_path($dbPath);
-        $localImgFile->save($fullPath, 'jpg');
-        $this->imageOptimizer->optimize($fullPath);
-        $image->local_small_img = $dbPath;
-        }catch (Exception $e){
-            echo 'Поймано исключение: ',  $e->getMessage(), "\n";
+            //make small image from big image
+            $localImgFile = $this->imageManipulator->read($fullPath);
+            $localImgFile->resize(null, 300);
+            $dbPath = 'uploads/' . microtime(true) . '_small.jpg';
+            $fullPath = public_path($dbPath);
+            $localImgFile->save($fullPath, 'jpg');
+            $this->imageOptimizer->optimize($fullPath);
+            $image->local_small_img = $dbPath;
+        } catch (Exception $e) {
+            echo 'Поймано исключение: ', $e->getMessage(), "\n";
         }
     }
 
