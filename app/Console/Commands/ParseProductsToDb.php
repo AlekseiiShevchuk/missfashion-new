@@ -8,6 +8,7 @@ use App\Image;
 use App\Product;
 use App\Size;
 use Carbon\Carbon;
+use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 use Symfony\Component\DomCrawler\Crawler;
@@ -140,18 +141,15 @@ class ParseProductsToDb extends Command
                 $localProduct->second_accordion_content = $inputProduct['second_accordion_content'];
                 $localProduct->push();
 
+                if($localProduct->images()->count() < 1){
+                    $localProduct->delete();
+                }
+
             }
         }
         $this->info('Parser handled ' . count($inputProductsUrlArray) . ' products');
 
-        $twoDaysAgo = Carbon::now()->subDay(2);
-        $allProducts = Product::where('updated_at', '<', $twoDaysAgo)->get();
-        $numberOfDeletedProducts = count($allProducts);
-        foreach ($allProducts as $oldProduct) {
-            $oldProduct->delete();
-        }
-
-        $this->info('Deleted ' . $numberOfDeletedProducts . ' old products');
+        $this->deleteOldProducts();
     }
 
     private function parseProducts($donor)
@@ -288,6 +286,7 @@ class ParseProductsToDb extends Command
         if (!strstr($response_code, '200 OK')) {
             return;
         };
+        try{
         //make big image from url
         $localImgFile = $this->imageManipulator->load(file_get_contents($image->url));
         $localImgFile->resize(null, 800);
@@ -305,5 +304,20 @@ class ParseProductsToDb extends Command
         $localImgFile->save($fullPath, 'jpg');
         $this->imageOptimizer->optimize($fullPath);
         $image->local_small_img = $dbPath;
+        }catch (Exception $e){
+            echo 'Поймано исключение: ',  $e->getMessage(), "\n";
+        }
+    }
+
+    private function deleteOldProducts()
+    {
+        $twoDaysAgo = Carbon::now()->subDay(2);
+        $allProducts = Product::where('updated_at', '<', $twoDaysAgo)->get();
+        $numberOfDeletedProducts = count($allProducts);
+        foreach ($allProducts as $oldProduct) {
+            $oldProduct->delete();
+        }
+
+        $this->info('Deleted ' . $numberOfDeletedProducts . ' old products');
     }
 }
