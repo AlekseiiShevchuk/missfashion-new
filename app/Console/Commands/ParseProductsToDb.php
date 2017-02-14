@@ -140,7 +140,7 @@ class ParseProductsToDb extends Command
                 $localProduct->first_accordion_content = $inputProduct['first_accordion_content'];
                 $localProduct->second_accordion_content = $inputProduct['second_accordion_content'];
                 $localProduct->push();
-
+                //delete bad products (without images or name)
                 if ($localProduct->images()->count() < 1 || strlen($localProduct->name) < 3) {
                     echo 'Images count: ', $localProduct->images()->count(), "\n";
                     echo 'Name length: ', strlen($localProduct->name), "\n";

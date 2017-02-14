@@ -119,7 +119,13 @@
             <li class="{{ $request->segment(1) == 'sliders' ? 'active' : '' }}">
                 <a href="{{ route('sliders.index') }}">
                     <i class="fa fa-align-left"></i>
-                    <span class="title">@lang('quickadmin.slider.title')</span>
+                    <span class="title">Simple slider (old)</span>
+                </a>
+            </li>
+            <li class="{{ $request->segment(1) == 'revslider' ? 'active' : '' }}">
+                <a href="/revslider">
+                    <i class="fa fa-align-left"></i>
+                    <span class="title">Revolution Slider</span>
                 </a>
             </li>
             @endcan
