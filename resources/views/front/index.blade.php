@@ -10,7 +10,7 @@
 
     @include('front.cats')
 
-    <section class="container">
+    <section class="section container">
         <div class="row text-center">
             @foreach($products as $product)
                 <div class="col-sm-6 col-md-3">
@@ -23,7 +23,7 @@
                                 <span class="text-danger"><strike>KR {{ $product->old_price }}</strike></span>
                                 <span class="text-primary"> KR {{$product->new_price}} </span>
                             </div>
-                            <p><storng>Category: </storng><a href="{{route('main')}}/?cat={{$product->category->id}}">{{ $product->category->name }}</a></p>
+                            <p class="thumbnail-category"><storng>Category: </storng><a href="{{route('main')}}/?cat={{$product->category->id}}">{{ $product->category->name }}</a></p>
                             <hr>
                             <p>
                                 <a href="{{ action('FrontController@show', $product->id) }}" class="btn btn-default">More Info</a>

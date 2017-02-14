@@ -16,7 +16,6 @@ class FrontController extends Controller
      */
     public function index(Request $request)
     {
-//        $categories = Category::all()->pluck('name', 'id');
         $where = [];
 
         if ($request->get('cat')) {
@@ -33,7 +32,6 @@ class FrontController extends Controller
 
         return view('front.index', [
             'products' => $products,
-//            'categories' => $categories,
             'sliders' => $sliders
         ]);
     }
@@ -53,7 +51,6 @@ class FrontController extends Controller
         return view('front.show', [
             'product' => $productId,
             'products' => $products
-//            'categories' => $categories
         ]);
     }
 }
