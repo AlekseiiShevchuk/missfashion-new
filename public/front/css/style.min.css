@@ -502,3 +502,15 @@ footer .media:not(:last-child) {
     margin-top: 0;
     margin-bottom: 40px;
 }
+.pagination {
+    margin-top: 32px;
+}
+.page-content {
+    padding: 40px 0;
+}
+.page-content:nth-child(odd) {
+    background-color: #f3f3f3;
+}
+.thumbnail-category {
+    font-size: 12px;
+}

@@ -40,7 +40,7 @@
                 </div>
                 @endforeach
             </div>
-            <div class="col-md-3">
+            <div class="col-md-offset-3 col-md-3">
                 <h4 class="footer__title">Product Categories</h4>
                     @foreach($categories as $key => $value)
                         <a class="label label-primary" style="padding:10px;display:inline-block;margin:0 5px 5px 0;" href="{{route('main')}}?cat={{$key}}">{{$value}}</a>
@@ -52,7 +52,7 @@
     <div class="footer__bottom">
         <div class="container">
                 <div class="footer__copy text-center">
-                    <div>© Copyright 2012 -&nbsp;<script>document.write(new Date().getFullYear());</script>2017&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;All Rights Reserved&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<p style="margin-top: 10px;"><img src="https://avada.theme-fusion.com/classic-shop/wp-content/uploads/sites/48/2015/09/payment_cards_footer.png" alt="logo_footer" width="322" height="34" class=""></p></div>
+                    <div>© Copyright 2012 -&nbsp;<script>document.write(new Date().getFullYear());</script>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;All Rights Reserved&nbsp;&nbsp;&nbsp;<p style="margin-top: 10px;"><img src="https://avada.theme-fusion.com/classic-shop/wp-content/uploads/sites/48/2015/09/payment_cards_footer.png" alt="logo_footer" width="322" height="34" class=""></p></div>
                 </div>
         </div>
     </div>

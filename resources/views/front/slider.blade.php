@@ -7,7 +7,7 @@
 {{--@endforeach--}}
 {{--</div>--}}
 {{--</div>--}}
-<div class="row">
+<div>
     @php
         if (env('INCLUDE_REV_SLIDER')){
         include_once __DIR__ . "../../../../public/revslider/embed.php";

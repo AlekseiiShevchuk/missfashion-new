@@ -24,6 +24,8 @@
 
 @yield('content')
 
+@include('front.page-contents')
+
 @include('front.footer')
 </body>
 </html>

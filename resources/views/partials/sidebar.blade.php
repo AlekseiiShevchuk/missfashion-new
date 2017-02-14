@@ -129,7 +129,14 @@
                 </a>
             </li>
             @endcan
-            
+
+                <li class="{{ $request->segment(1) == 'contents' ? 'active' : '' }}">
+                    <a href="{{ route('contents.index') }}">
+                        <i class="fa fa-align-left"></i>
+                        <span class="title">Contents</span>
+                    </a>
+                </li>
+
 
             <li>
                 <a href="#logout" onclick="$('#logout').submit();">

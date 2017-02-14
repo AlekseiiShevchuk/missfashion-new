@@ -38,4 +38,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('products_mass_destroy', ['uses' => 'ProductsController@massDestroy', 'as' => 'products.mass_destroy']);
 	Route::resource('sliders', 'SlidersController');
     Route::post('sliders_mass_destroy', ['uses' => 'SlidersController@massDestroy', 'as' => 'sliders.mass_destroy']);
+    Route::resource('contents', 'ContentsController');
+    Route::post('contents_mass_destroy', ['uses' => 'ContentsController@massDestroy', 'as' => 'contents.mass_destroy']);
 });
