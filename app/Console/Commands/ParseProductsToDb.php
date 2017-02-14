@@ -8,6 +8,7 @@ use App\Image;
 use App\Product;
 use App\Size;
 use Carbon\Carbon;
+use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 use Symfony\Component\DomCrawler\Crawler;
@@ -41,9 +42,9 @@ class ParseProductsToDb extends Command
     {
         parent::__construct();
         $this->imageManipulator = new \PHPixie\Image();
-        $this->imageOptimizer = (new \ImageOptimizer\OptimizerFactory())->get('jpegoptim');
+        $this->imageOptimizer = (new \ImageOptimizer\OptimizerFactory())->get();
 
-        if (! file_exists(public_path('uploads'))) {
+        if (!file_exists(public_path('uploads'))) {
             mkdir(public_path('uploads'), 0777);
         }
     }
@@ -139,19 +140,19 @@ class ParseProductsToDb extends Command
                 $localProduct->first_accordion_content = $inputProduct['first_accordion_content'];
                 $localProduct->second_accordion_content = $inputProduct['second_accordion_content'];
                 $localProduct->push();
+                //delete bad products (without images or name)
+                if ($localProduct->images()->count() < 1 || strlen($localProduct->name) < 3) {
+                    echo 'Images count: ', $localProduct->images()->count(), "\n";
+                    echo 'Name length: ', strlen($localProduct->name), "\n";
+                    echo 'Deleting ', "\n";
+                    $localProduct->delete();
+                }
 
             }
         }
         $this->info('Parser handled ' . count($inputProductsUrlArray) . ' products');
 
-        $twoDaysAgo = Carbon::now()->subDay(2);
-        $allProducts = Product::where('updated_at', '<',$twoDaysAgo)->get();
-        $numberOfDeletedProducts = count($allProducts);
-        foreach ($allProducts as $oldProduct){
-            $oldProduct->delete();
-        }
-
-        $this->info('Deleted ' . $numberOfDeletedProducts . ' old products');
+        $this->deleteOldProducts();
     }
 
     private function parseProducts($donor)
@@ -284,22 +285,42 @@ class ParseProductsToDb extends Command
 
     private function downloadAndOptimizeImage(Image $image)
     {
-        //make big image from url
-        $localImgFile = $this->imageManipulator->load(file_get_contents($image->url));
-        $localImgFile->resize(null, 800);
-        $dbPath = 'uploads/' . microtime(true) . '.jpg';
-        $fullPath = public_path($dbPath);
-        $localImgFile->save($fullPath, 'jpg');
-        $this->imageOptimizer->optimize($fullPath);
-        $image->local_big_img = $dbPath;
+        $response_code = get_headers($image->url)[0];
+        if (!strstr($response_code, '200 OK')) {
+            return;
+        };
+        try {
+            //make big image from url
+            $localImgFile = $this->imageManipulator->load(file_get_contents($image->url));
+            $localImgFile->resize(null, 800);
+            $dbPath = 'uploads/' . microtime(true) . '.jpg';
+            $fullPath = public_path($dbPath);
+            $localImgFile->save($fullPath, 'jpg');
+            $this->imageOptimizer->optimize($fullPath);
+            $image->local_big_img = $dbPath;
 
-        //make small image from big image
-        $localImgFile = $this->imageManipulator->read($fullPath);
-        $localImgFile->resize(null, 300);
-        $dbPath = 'uploads/' . microtime(true) . '_small.jpg';
-        $fullPath = public_path($dbPath);
-        $localImgFile->save($fullPath, 'jpg');
-        $this->imageOptimizer->optimize($fullPath);
-        $image->local_small_img = $dbPath;
+            //make small image from big image
+            $localImgFile = $this->imageManipulator->read($fullPath);
+            $localImgFile->resize(null, 300);
+            $dbPath = 'uploads/' . microtime(true) . '_small.jpg';
+            $fullPath = public_path($dbPath);
+            $localImgFile->save($fullPath, 'jpg');
+            $this->imageOptimizer->optimize($fullPath);
+            $image->local_small_img = $dbPath;
+        } catch (Exception $e) {
+            echo 'Поймано исключение: ', $e->getMessage(), "\n";
+        }
+    }
+
+    private function deleteOldProducts()
+    {
+        $twoDaysAgo = Carbon::now()->subDay(2);
+        $allProducts = Product::where('updated_at', '<', $twoDaysAgo)->get();
+        $numberOfDeletedProducts = count($allProducts);
+        foreach ($allProducts as $oldProduct) {
+            $oldProduct->delete();
+        }
+
+        $this->info('Deleted ' . $numberOfDeletedProducts . ' old products');
     }
 }

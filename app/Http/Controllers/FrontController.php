@@ -29,7 +29,6 @@ class FrontController extends Controller
 
         $products = Product::where($where)->paginate(16);
         $sliders = Slider::where('is_active', '1')->get();
-
         return view('front.index', [
             'products' => $products,
             'sliders' => $sliders
