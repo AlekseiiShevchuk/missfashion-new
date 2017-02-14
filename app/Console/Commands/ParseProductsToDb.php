@@ -43,7 +43,7 @@ class ParseProductsToDb extends Command
         $this->imageManipulator = new \PHPixie\Image();
         $this->imageOptimizer = (new \ImageOptimizer\OptimizerFactory())->get();
 
-        if (! file_exists(public_path('uploads'))) {
+        if (!file_exists(public_path('uploads'))) {
             mkdir(public_path('uploads'), 0777);
         }
     }
@@ -145,9 +145,9 @@ class ParseProductsToDb extends Command
         $this->info('Parser handled ' . count($inputProductsUrlArray) . ' products');
 
         $twoDaysAgo = Carbon::now()->subDay(2);
-        $allProducts = Product::where('updated_at', '<',$twoDaysAgo)->get();
+        $allProducts = Product::where('updated_at', '<', $twoDaysAgo)->get();
         $numberOfDeletedProducts = count($allProducts);
-        foreach ($allProducts as $oldProduct){
+        foreach ($allProducts as $oldProduct) {
             $oldProduct->delete();
         }
 
@@ -284,25 +284,25 @@ class ParseProductsToDb extends Command
 
     private function downloadAndOptimizeImage(Image $image)
     {
-        if(filesize(file_get_contents($image->url)) > 5*1000)
-        {
+
         //make big image from url
         $localImgFile = $this->imageManipulator->load(file_get_contents($image->url));
         $localImgFile->resize(null, 800);
         $dbPath = 'uploads/' . microtime(true) . '.jpg';
         $fullPath = public_path($dbPath);
         $localImgFile->save($fullPath, 'jpg');
-        $this->imageOptimizer->optimize($fullPath);
-        $image->local_big_img = $dbPath;
+        if (filesize($fullPath) > 8 * 1000) {
+            $this->imageOptimizer->optimize($fullPath);
+            $image->local_big_img = $dbPath;
 
-        //make small image from big image
-        $localImgFile = $this->imageManipulator->read($fullPath);
-        $localImgFile->resize(null, 300);
-        $dbPath = 'uploads/' . microtime(true) . '_small.jpg';
-        $fullPath = public_path($dbPath);
-        $localImgFile->save($fullPath, 'jpg');
-        $this->imageOptimizer->optimize($fullPath);
-        $image->local_small_img = $dbPath;
+            //make small image from big image
+            $localImgFile = $this->imageManipulator->read($fullPath);
+            $localImgFile->resize(null, 300);
+            $dbPath = 'uploads/' . microtime(true) . '_small.jpg';
+            $fullPath = public_path($dbPath);
+            $localImgFile->save($fullPath, 'jpg');
+            $this->imageOptimizer->optimize($fullPath);
+            $image->local_small_img = $dbPath;
         }
     }
 }
