@@ -285,7 +285,7 @@ class ParseProductsToDb extends Command
     private function downloadAndOptimizeImage(Image $image)
     {
         $response_code = get_headers($image->url)[0];
-        if (!strstr($response_code,'200 OK')){
+        if (!strstr($response_code, '200 OK')) {
             return;
         };
         //make big image from url
