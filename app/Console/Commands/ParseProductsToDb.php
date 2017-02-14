@@ -142,7 +142,9 @@ class ParseProductsToDb extends Command
                 $localProduct->push();
 
                 if($localProduct->images()->count() < 1 || strlen($localProduct->name < 3)){
-                    $localProduct->delete();
+                    echo 'Images count: ',  $localProduct->images()->count(), "\n";
+                    echo 'Name length: ',  $localProduct->name, "\n";
+                    //$localProduct->delete();
                 }
 
             }
