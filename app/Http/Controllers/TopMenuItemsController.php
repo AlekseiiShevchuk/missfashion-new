@@ -35,7 +35,7 @@ class TopMenuItemsController extends Controller
     public function create()
     {
         $relations = [
-            'subitems' => \App\TopMenuItem::get()->pluck('name', 'id'),
+            'subitems' => \App\TopMenuItem::where('is_main', 0)->get()->pluck('name', 'id'),
         ];
 
         return view('top_menu_items.create', $relations);
@@ -68,7 +68,7 @@ class TopMenuItemsController extends Controller
     {
 
         $relations = [
-            'subitems' => \App\TopMenuItem::get()->pluck('name', 'id'),
+            'subitems' => \App\TopMenuItem::where('is_main', 0)->get()->pluck('name', 'id'),
         ];
 
         $top_menu_item = TopMenuItem::findOrFail($id);
@@ -105,10 +105,6 @@ class TopMenuItemsController extends Controller
     {
         $relations = [
             'subitems' => \App\TopMenuItem::get()->pluck('name', 'id'),
-            'top_menu_items' => \App\TopMenuItem::whereHas('subitems',
-                    function ($query) use ($id) {
-                        $query->where('id', $id);
-                    })->get(),
         ];
 
         $top_menu_item = TopMenuItem::findOrFail($id);
