@@ -472,7 +472,7 @@ footer a {
     color: #fff;
 }
 footer a:hover {
-    color: #427ed1;
+    color: #047c92;
     text-decoration: none;
 }
 
@@ -513,4 +513,26 @@ footer .media:not(:last-child) {
 }
 .thumbnail-category {
     font-size: 12px;
+}
+
+.btn-primary,
+.label-primary,
+.pagination > .active > span {
+    background-color: rgb(0, 144, 171);
+    border-color: rgb(0, 144, 171);
+}
+
+a,
+.text-primary {
+    color: rgb(0, 144, 171);
+}
+a:hover {
+    color: #047c92;
+}
+.btn-primary.active, .btn-primary.focus, .btn-primary:active, .btn-primary:focus, .btn-primary:hover, .open>.dropdown-toggle.btn-primary {
+    background-color: #047c92;
+    border-color: #047c92;
+}
+.label-primary[href]:focus, .label-primary[href]:hover {
+    background-color: #047c92;
 }
