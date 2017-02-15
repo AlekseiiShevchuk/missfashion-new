@@ -136,6 +136,12 @@
                         <span class="title">Contents</span>
                     </a>
                 </li>
+                <li class="{{ $request->segment(1) == 'top_menu_items' ? 'active' : '' }}">
+                    <a href="{{ route('top_menu_items.index') }}">
+                        <i class="fa fa-align-left"></i>
+                        <span class="title">Top menu items</span>
+                    </a>
+                </li>
 
 
             <li>

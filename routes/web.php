@@ -40,4 +40,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('sliders_mass_destroy', ['uses' => 'SlidersController@massDestroy', 'as' => 'sliders.mass_destroy']);
     Route::resource('contents', 'ContentsController');
     Route::post('contents_mass_destroy', ['uses' => 'ContentsController@massDestroy', 'as' => 'contents.mass_destroy']);
+    Route::resource('top_menu_items', 'TopMenuItemsController');
+    Route::post('top_menu_items_mass_destroy', ['uses' => 'TopMenuItemsController@massDestroy', 'as' => 'top_menu_items.mass_destroy']);
 });
