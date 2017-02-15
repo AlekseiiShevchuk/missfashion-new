@@ -4,10 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Content;
 use Illuminate\Http\Request;
-//use Illuminate\Support\Facades\Gate;
-//use App\Http\Requests\StoreContentsRequest;
-//use App\Http\Requests\UpdateContentsRequest;
-//use Yajra\Datatables\Datatables;
 
 class ContentsController extends Controller
 {
@@ -35,7 +31,7 @@ class ContentsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -48,7 +44,7 @@ class ContentsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -61,7 +57,7 @@ class ContentsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -74,8 +70,8 @@ class ContentsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -89,7 +85,7 @@ class ContentsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
