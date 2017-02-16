@@ -36,6 +36,11 @@
             <div class="collapse navbar-collapse" id="collapse-1">
                 @if(count($categories) <= 7 )
                 <ul class="nav navbar-nav navbar-right" id="main-menu">
+                    @foreach($categories as $key => $value)
+                        <li>
+                            <a href="{{route('main')}}?cat={{$key}}">{{$value}}</a>
+                        </li>
+                    @endforeach
                     @foreach($menuItems as $menuItem)
                             @if((count($menuItem->subitems) < 1))
                             <li>
