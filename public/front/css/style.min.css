@@ -306,10 +306,26 @@
     background: none;
     border-color: rgb(0, 144, 171);
 }
+
+@media (max-width: 767px) {
+    .main-navbar .navbar-nav > li > a {
+        line-height: 25px;
+    }
+    .main-navbar .navbar-nav > li > a:hover,
+    .main-navbar .navbar-nav > li.active > a {
+        border-color: transparent;
+    }
+}
 .header__top {
     padding: 10px 0;
     border-top: 3px solid #0090ab;
     border-bottom: 1px solid #eaeaea;
+}
+.main-navbar .navbar-toggle {
+    margin-top: 26px;
+}
+.main-navbar .navbar-toggle .icon-bar {
+    background-color: #000;
 }
 
 .product-full {
