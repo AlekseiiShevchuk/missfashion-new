@@ -34,13 +34,33 @@
                 <a class="navbar-brand" href="/"><img src="{{ URL::asset('/front/images/missfashion-logo.png') }}" alt="Missfashion Logo" width="200px;"></a>
             </div>
             <div class="collapse navbar-collapse" id="collapse-1">
-                @if(count($categories) <= 7 )
+                @if($categories)
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="mega-submenu-wrap">
+                        <a href="#" >Categories <span class="caret"></span></a>
+                        <div class="mega-submenu">
+                            <div class="mega-submenu-holder">
+                                <div class="mega-submenu-content">
+                                    @foreach($categories as $category)
+                                        <div class="mega-submenu-content__item">
+                                            <div class="mega-submenu-content__title">{{ $category->name }}</div>
+                                            <a href="{{route('main')}}/?cat={{$category->id}}" class="mega-submenu-content__img">
+                                                @if($category->photo)
+                                                    <img src="/uploads/{{ $category->photo }}" alt="{{ $category->name }}">
+                                                @else
+                                                    <img src="{{ URL::asset('/front/images/missfashion-logo.png') }}" alt="Missfashion Logo" width="200px;">
+                                                @endif
+                                            </a>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                @endif
+                @if($menuItems)
                 <ul class="nav navbar-nav navbar-right" id="main-menu">
-                    @foreach($categories as $key => $value)
-                        <li>
-                            <a href="{{route('main')}}?cat={{$key}}">{{$value}}</a>
-                        </li>
-                    @endforeach
                     @foreach($menuItems as $menuItem)
                             @if((count($menuItem->subitems) < 1))
                             <li>
@@ -70,19 +90,7 @@
                         @endif
                     @endforeach
                 </ul>
-                @else
-                    <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Categories <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            @foreach($categories as $key => $value)
-                                <li><a  href="{{route('main')}}/?cat={{$key}}">{{$value}}</a></li>
-                            @endforeach
-                        </ul>
-                    </li>
-                    </ul>
-                @endif
-            </div>
+                    @endif
         </div>
 </nav>
 </header>
