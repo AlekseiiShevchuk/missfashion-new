@@ -22,7 +22,7 @@
     </div>
 </div>
 
-<nav class="navbar navbar-inverse main-navbar" role="navigation">
+<nav class="navbar main-navbar" role="navigation" data-spy="affix" data-offset-top="60" data-offset-bottom="200">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#collapse-1">
@@ -31,13 +31,38 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">Missfashion</a>
+                <a class="navbar-brand" href="/"><img src="{{ URL::asset('/front/images/missfashion-logo.png') }}" alt="Missfashion Logo" width="200px;"></a>
             </div>
             <div class="collapse navbar-collapse" id="collapse-1">
                 @if(count($categories) <= 7 )
                 <ul class="nav navbar-nav navbar-right" id="main-menu">
-                    @foreach($categories as $key => $value)
-                        <li><a  href="{{route('main')}}/?cat={{$key}}">{{$value}}</a></li>
+                    @foreach($menuItems as $menuItem)
+                            @if((count($menuItem->subitems) < 1))
+                            <li>
+                                <a href="#">{{ $menuItem->name }} </a>
+                            @elseif((count($menuItem->subitems) > 1))
+                            <li class="mega-submenu-wrap">
+                                <a href="#">{{ $menuItem->name }} <span class="caret"></span></a>
+                                <div class="mega-submenu">
+                                <div class="mega-submenu-holder">
+                                    <div class="mega-submenu-content">
+                                        @foreach($menuItem->subitems as $subitem)
+                                            <div class="mega-submenu-content__item">
+                                                <div class="mega-submenu-content__title">{{ $subitem->name }}</div>
+                                                <a href="{{ $subitem->link }}" class="mega-submenu-content__img">
+                                                    @if($subitem->image)
+                                                        <img src="/uploads/{{ $subitem->image }}" alt="{{ $subitem->name }}">
+                                                    @else
+                                                        <img src="{{ URL::asset('/front/images/missfashion-logo.png') }}" alt="Missfashion Logo" width="200px;">
+                                                    @endif
+                                                </a>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        @endif
                     @endforeach
                 </ul>
                 @else

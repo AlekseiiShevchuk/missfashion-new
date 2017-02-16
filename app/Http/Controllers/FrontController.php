@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Product;
 use App\Slider;
+use App\TopMenuItem;
 use Illuminate\Http\Request;
 
 class FrontController extends Controller
@@ -16,6 +17,7 @@ class FrontController extends Controller
      */
     public function index(Request $request)
     {
+        $menuItems = TopMenuItem::where('is_main', 1)->get();
         $where = [];
 
         if ($request->get('cat')) {
@@ -31,7 +33,8 @@ class FrontController extends Controller
         $sliders = Slider::where('is_active', '1')->get();
         return view('front.index', [
             'products' => $products,
-            'sliders' => $sliders
+            'sliders' => $sliders,
+            'menuItems' => $menuItems
         ]);
     }
 
@@ -43,13 +46,15 @@ class FrontController extends Controller
      */
     public function show($id)
     {
+        $menuItems = TopMenuItem::where('is_main', 1)->get();
         $where = [];
         $products = Product::where($where)->latest('created_at')->limit(4)->get();
         $productId = Product::find($id);
 
         return view('front.show', [
             'product' => $productId,
-            'products' => $products
+            'products' => $products,
+            'menuItems' => $menuItems
         ]);
     }
 }
