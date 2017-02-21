@@ -2,12 +2,12 @@
 
 @section('content')
     <h3 class="page-title">@lang('quickadmin.categories.title')</h3>
-    
+
     <div class="panel panel-default">
         <div class="panel-heading">
             @lang('quickadmin.view')
         </div>
-        
+
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-6">
@@ -22,7 +22,9 @@
                         </tr>
                         <tr>
                             <th>@lang('quickadmin.categories.fields.photo')</th>
-                            <td>@if($category->photo)<a href="{{ asset('uploads/' . $category->photo) }}" target="_blank"><img src="{{ asset('uploads/thumb/' . $category->photo) }}"/></a>@endif</td>
+                            <td>@if($category->photo)<a href="{{ asset('uploads/' . $category->photo) }}"
+                                                        target="_blank"><img
+                                            src="{{ asset('uploads/thumb/' . $category->photo) }}"/></a>@endif</td>
                         </tr>
                         <tr>
                             <th>@lang('quickadmin.categories.fields.donors')</th>
@@ -30,6 +32,12 @@
                                 @foreach ($category->donors as $singleDonors)
                                     <span class="label label-info label-many">{{ $singleDonors->url }}</span>
                                 @endforeach
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Content Block</th>
+                            <td>
+                                {!! $category->content_block !!}
                             </td>
                         </tr>
                     </table>

@@ -25,6 +25,7 @@
                         <th>@lang('quickadmin.categories.fields.parent')</th>
                         <th>@lang('quickadmin.categories.fields.photo')</th>
                         <th>@lang('quickadmin.categories.fields.donors')</th>
+                        <th>Content Block</th>
                         <th>&nbsp;</th>
                     </tr>
                 </thead>
@@ -46,7 +47,7 @@ $(document).ready(function () {
                 {data: 'parent.name', name: 'parent.name', defaultContent: ""},
                 {data: 'photo', name: 'photo', defaultContent: ""},
                 {data: 'donors.url', name: 'donors.url', defaultContent: ""},
-                
+                {data: 'content_block', name: 'content_block', defaultContent: ""},
                 {data: 'actions', name: 'actions', searchable: false, sortable: false}
             ];
             processAjaxTables();

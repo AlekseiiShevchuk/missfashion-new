@@ -61,11 +61,25 @@
                     @endif
                 </div>
             </div>
-            
+            <div class="row">
+                <div class="col-xs-12 form-group">
+                    {!! Form::label('content_block', 'Content block', ['class' => 'control-label']) !!}
+                    {!! Form::textarea('content_block', old('content_block'), ['class' => 'form-control editor', 'placeholder' => '']) !!}
+                </div>
+            </div>
         </div>
     </div>
 
     {!! Form::submit(trans('quickadmin.save'), ['class' => 'btn btn-danger']) !!}
     {!! Form::close() !!}
 @stop
+@section('javascript')
+    @parent
+    <script src="//cdn.ckeditor.com/4.5.4/full/ckeditor.js"></script>
+    <script>
+        $('.editor').each(function () {
+            CKEDITOR.replace($(this).attr('id'));
+        });
+    </script>
 
+@stop
