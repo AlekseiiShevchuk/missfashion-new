@@ -45,7 +45,7 @@ class CategoriesController extends Controller
                 };
             });
             $table->editColumn('donors.url', function ($row) {
-                return '<span class="label label-info label-many">' . implode('</span><span class="label label-info label-many"> ',
+                return '<span class="label label-info label-many">' . implode('</span><br><span class="label label-info label-many"> ',
                         $row->donors->pluck('url')->toArray()) . '</span>';
             });
 
