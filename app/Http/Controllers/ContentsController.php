@@ -15,7 +15,7 @@ class ContentsController extends Controller
      */
     public function edit()
     {
-        $content = CustomOption::find('main_page_content_block')->value;
+        $content = CustomOption::findOrNew('main_page_content_block');
 
         return view('contents.edit', compact('content'));
     }
