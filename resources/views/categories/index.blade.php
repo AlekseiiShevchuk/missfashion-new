@@ -46,7 +46,7 @@ $(document).ready(function () {
                 {data: 'name', name: 'name'},
                 {data: 'parent.name', name: 'parent.name', defaultContent: ""},
                 {data: 'photo', name: 'photo', defaultContent: ""},
-                {data: 'donors.url', name: 'donors.url', defaultContent: ""},
+                {data: 'donors.url'+"<br>", name: 'donors.url', defaultContent: ""},
                 {data: 'content_block', name: 'content_block', defaultContent: ""},
                 {data: 'actions', name: 'actions', searchable: false, sortable: false}
             ];
