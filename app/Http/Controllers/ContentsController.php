@@ -28,7 +28,7 @@ class ContentsController extends Controller
      */
     public function update(Request $request)
     {
-        $content = CustomOption::find('main_page_content_block');
+        $content = CustomOption::findOrNew('main_page_content_block');
         $content->update($request->only('value'));
 
         return redirect()->route('contents.edit');
