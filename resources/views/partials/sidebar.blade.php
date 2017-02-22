@@ -116,12 +116,6 @@
             @endcan
             
             @can('slider_access')
-            <li class="{{ $request->segment(1) == 'sliders' ? 'active' : '' }}">
-                <a href="{{ route('sliders.index') }}">
-                    <i class="fa fa-align-left"></i>
-                    <span class="title">Simple slider (old)</span>
-                </a>
-            </li>
             <li class="{{ $request->segment(1) == 'revslider' ? 'active' : '' }}">
                 <a href="/revslider">
                     <i class="fa fa-align-left"></i>
@@ -131,9 +125,9 @@
             @endcan
 
                 <li class="{{ $request->segment(1) == 'contents' ? 'active' : '' }}">
-                    <a href="{{ route('contents.index') }}">
+                    <a href="{{ route('contents.edit') }}">
                         <i class="fa fa-align-left"></i>
-                        <span class="title">Contents</span>
+                        <span class="title">Main page content block</span>
                     </a>
                 </li>
                 <li class="{{ $request->segment(1) == 'top_menu_items' ? 'active' : '' }}">

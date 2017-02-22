@@ -28,10 +28,6 @@ class AppServiceProvider extends ServiceProvider
             $view->with('categories', Category::all()->pluck('name', 'id'));
             $view->with('rated_products', Product::take(3)->get());
         });
-
-        view()->composer('front.page-contents', function ($view) {
-            $view->with('contents', Content::where('is_active', '1')->get());
-        });
     }
 
     /**

@@ -38,8 +38,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('products_mass_destroy', ['uses' => 'ProductsController@massDestroy', 'as' => 'products.mass_destroy']);
 	Route::resource('sliders', 'SlidersController');
     Route::post('sliders_mass_destroy', ['uses' => 'SlidersController@massDestroy', 'as' => 'sliders.mass_destroy']);
-    Route::resource('contents', 'ContentsController');
-    Route::post('contents_mass_destroy', ['uses' => 'ContentsController@massDestroy', 'as' => 'contents.mass_destroy']);
+    Route::get('contents', 'ContentsController@edit')->name('contents.edit');
+    Route::put('contents', 'ContentsController@update')->name('contents.update');
     Route::resource('top_menu_items', 'TopMenuItemsController');
     Route::post('top_menu_items_mass_destroy', ['uses' => 'TopMenuItemsController@massDestroy', 'as' => 'top_menu_items.mass_destroy']);
 });

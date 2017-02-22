@@ -1,33 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3 class="page-title">@lang('quickadmin.contents.title')</h3>
+    <h3 class="page-title">Edit content block for main page</h3>
 
-    {!! Form::open(['method' => 'PUT', 'route' => ['contents.update', $content->id]]) !!}
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            @lang('quickadmin.create')
-        </div>
-    </div>
+    {!! Form::open(['method' => 'PUT', 'route' => ['contents.update']]) !!}
 
     <div class="panel-body">
         <div class="row">
             <div class="col-xs-12 form-group">
-                {!! Form::label('is_active', 'Is active?', ['class' => 'control-label']) !!}
-                {!! Form::hidden('is_active', 0) !!}
-                {!! Form::checkbox('is_active', 1, $content->is_active) !!}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12 form-group">
-                {!! Form::label('name', 'Name', ['class' => 'control-label']) !!}
-                {!! Form::text('name', $content->name,  ['class' => 'form-control', 'placeholder' => '']) !!}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12 form-group">
-                {!! Form::label('description', 'Description', ['class' => 'control-label']) !!}
-                {!! Form::textarea('description', $content->description, ['class' => 'form-control editor', 'placeholder' => '']) !!}
+                {!! Form::label('value', 'Content block for main page', ['class' => 'control-label']) !!}
+                {!! Form::textarea('value', $content, ['class' => 'form-control editor', 'placeholder' => '']) !!}
             </div>
         </div>
     </div>

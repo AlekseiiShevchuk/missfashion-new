@@ -4,7 +4,6 @@
 
     <h3 class="page-title">@lang('quickadmin.contents.title')</h3>
     <p>
-        {{--<a href="" class="btn btn-success">Add new</a>--}}
         <a href="{{ route('contents.create') }}" class="btn btn-success">@lang('quickadmin.add_new')</a>
     </p>
 

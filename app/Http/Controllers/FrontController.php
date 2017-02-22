@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\CustomOption;
 use App\Product;
 use App\Slider;
 use App\TopMenuItem;
@@ -17,12 +18,14 @@ class FrontController extends Controller
      */
     public function index(Request $request)
     {
+        $customBlock = CustomOption::find('main_page_content_block')->value;
         $menuItems = TopMenuItem::where('is_main', 1)->get();
         $where = [];
 
         if ($request->get('cat')) {
             $category = Category::findOrFail((int)$request->get('cat'));
             $where[] =['category_id','=',(int)$request->get('cat')];
+            $customBlock = $category->content_block;
         }
 
         if ($request->get('search')) {
@@ -34,7 +37,8 @@ class FrontController extends Controller
         return view('front.index', [
             'products' => $products,
             'sliders' => $sliders,
-            'menuItems' => $menuItems
+            'menuItems' => $menuItems,
+            'customBlock' => $customBlock
         ]);
     }
 
