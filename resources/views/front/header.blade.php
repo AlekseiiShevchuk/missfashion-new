@@ -57,7 +57,7 @@
                                                 </a>
                                             </div>
                                             @if(($loop->iteration % 4) == 0)
-                                                <div class="clearfix"></div>><br>
+                                                {{--делам перенос айтемов на новую строку после каждого четвертого айтема--}}
                                             @endif
                                         @endforeach
                                     </div>
