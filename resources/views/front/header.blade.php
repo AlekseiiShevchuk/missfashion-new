@@ -22,7 +22,7 @@
         </div>
     </div>
 
-    <nav class="navbar main-navbar" role="navigation" data-spy="affix" data-offset-top="60" data-offset-bottom="200">
+    <nav class="navbar main-navbar" role="navigation">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#collapse-1">
@@ -43,9 +43,9 @@
                                 <div class="mega-submenu-holder">
                                     <div class="mega-submenu-content">
                                         @foreach($categories as $category)
-                                            <div class="mega-submenu-content__item">
+                                            <a href="{{route('main')}}/?cat={{$category->id}}" class="mega-submenu-content__item">
                                                 <div class="mega-submenu-content__title">{{ $category->name }}</div>
-                                                <a href="{{route('category', ['category' => $category->id])}}"
+                                                <div
                                                    class="mega-submenu-content__img">
                                                     @if($category->photo)
                                                         <img src="/uploads/{{ $category->photo }}"
@@ -54,8 +54,8 @@
                                                         <img src="{{ URL::asset('/front/images/missfashion-logo.png') }}"
                                                              alt="Missfashion Logo" width="200px;">
                                                     @endif
-                                                </a>
-                                            </div>
+                                                </div>
+                                            </a>
                                             @if(($loop->iteration % 4) == 0)
                                                 {{--делам перенос айтемов на новую строку после каждого четвертого айтема--}}
                                             @endif
@@ -79,9 +79,9 @@
                                         <div class="mega-submenu-holder">
                                             <div class="mega-submenu-content">
                                                 @foreach($menuItem->subitems as $subitem)
-                                                    <div class="mega-submenu-content__item">
+                                                    <a href="{{ $subitem->link }}" class="mega-submenu-content__item">
                                                         <div class="mega-submenu-content__title">{{ $subitem->name }}</div>
-                                                        <a href="{{ $subitem->link }}"
+                                                        <div
                                                            class="mega-submenu-content__img">
                                                             @if($subitem->image)
                                                                 <img src="/uploads/{{ $subitem->image }}"
@@ -90,8 +90,8 @@
                                                                 <img src="{{ URL::asset('/front/images/missfashion-logo.png') }}"
                                                                      alt="Missfashion Logo" width="200px;">
                                                             @endif
-                                                        </a>
-                                                    </div>
+                                                        </div>
+                                                    </a>
                                                 @endforeach
                                             </div>
                                         </div>
