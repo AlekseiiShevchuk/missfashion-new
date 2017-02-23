@@ -43,10 +43,11 @@
                                 <div class="mega-submenu-holder">
                                     <div class="mega-submenu-content">
                                         @foreach($categories as $category)
-                                            <a href="{{route('main')}}/?cat={{$category->id}}" class="mega-submenu-content__item">
+                                            <a href="{{route('category', ['category' =>$category->id])}}"
+                                               class="mega-submenu-content__item">
                                                 <div class="mega-submenu-content__title">{{ $category->name }}</div>
                                                 <div
-                                                   class="mega-submenu-content__img">
+                                                        class="mega-submenu-content__img">
                                                     @if($category->photo)
                                                         <img src="/uploads/{{ $category->photo }}"
                                                              alt="{{ $category->name }}">
@@ -56,9 +57,6 @@
                                                     @endif
                                                 </div>
                                             </a>
-                                            @if(($loop->iteration % 4) == 0)
-                                                {{--делам перенос айтемов на новую строку после каждого четвертого айтема--}}
-                                            @endif
                                         @endforeach
                                     </div>
                                 </div>
@@ -82,7 +80,7 @@
                                                     <a href="{{ $subitem->link }}" class="mega-submenu-content__item">
                                                         <div class="mega-submenu-content__title">{{ $subitem->name }}</div>
                                                         <div
-                                                           class="mega-submenu-content__img">
+                                                                class="mega-submenu-content__img">
                                                             @if($subitem->image)
                                                                 <img src="/uploads/{{ $subitem->image }}"
                                                                      alt="{{ $subitem->name }}">

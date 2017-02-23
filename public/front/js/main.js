@@ -17,6 +17,7 @@ $.extend({
         return $.getUrlVars()[name];
     }
 });
+
 $(function() {
     console.log( "ready!" );
 

@@ -13,10 +13,10 @@
                             </span>
                             <ul>
 @if(Route::currentRouteName() == 'main')
-                                <li><a href="{{route('main')}}/?sort=priceHF&search={{request()->get('search')}}">Sort by <strong>Price: Highest first</strong></a></li>
-                                <li><a href="{{route('main')}}/?sort=priceLF&search={{request()->get('search')}}">Sort by <strong>Price: Lowest first</strong></a></li>
-                                <li><a href="{{route('main')}}/?sort=nameAZ&search={{request()->get('search')}}">Sort by <strong>Name: A-Z</strong></a></li>
-                                <li><a href="{{route('main')}}/?sort=nameZA&search={{request()->get('search')}}">Sort by <strong>Name: Z-A</strong></a></li>
+    <li><a href="{{route('main')}}/?sort=priceHF&search={{request()->get('search')}}">Sort by <strong>Price: Highest first</strong></a></li>
+    <li><a href="{{route('main')}}/?sort=priceLF&search={{request()->get('search')}}">Sort by <strong>Price: Lowest first</strong></a></li>
+    <li><a href="{{route('main')}}/?sort=nameAZ&search={{request()->get('search')}}">Sort by <strong>Name: A-Z</strong></a></li>
+    <li><a href="{{route('main')}}/?sort=nameZA&search={{request()->get('search')}}">Sort by <strong>Name: Z-A</strong></a></li>
 @endif
 @if(Route::currentRouteName() == 'category')
     <li><a href="{{route('category',['category'=> Route::input('category')])}}/?sort=priceHF&search={{request()->get('search')}}">Sort by <strong>Price: Highest first</strong></a></li>
