@@ -38,5 +38,5 @@
             </div>
         </div>
     </section>
-
+    @include('front.page-contents')
 @endsection

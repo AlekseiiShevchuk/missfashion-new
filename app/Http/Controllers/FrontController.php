@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\CustomOption;
 use App\Product;
-use App\Slider;
 use App\TopMenuItem;
 use Illuminate\Http\Request;
 
@@ -18,27 +17,43 @@ class FrontController extends Controller
      */
     public function index(Request $request)
     {
+        $products = Product::query();
         $customBlock = CustomOption::find('main_page_content_block')->value;
         $menuItems = TopMenuItem::where('is_main', 1)->get();
-        $where = [];
 
-        if ($request->get('cat')) {
+        if ($request->get('cat') && ($request->get('cat') != 'all')) {
             $category = Category::findOrFail((int)$request->get('cat'));
-            $where[] =['category_id','=',(int)$request->get('cat')];
+            $products = $products->where('category_id', (int)$request->get('cat'));
             $customBlock = $category->content_block;
         }
 
         if ($request->get('search')) {
-            $where[] = ['name', 'like', $request->get('search').'%'];
+            $products = $products->where('name', 'like', '%' . $request->get('search') . '%');
         }
 
-        $products = Product::where($where)->paginate(16);
-        $sliders = Slider::where('is_active', '1')->get();
+        if ($request->get('sort') == 'priceHF') {
+            $products = $products->orderBy('old_price', 'desc');
+        }
+
+        if ($request->get('sort') == 'priceLF') {
+            $products = $products->orderBy('old_price', 'asc');
+        }
+
+        if ($request->get('sort') == 'nameAZ') {
+            $products = $products->orderBy('name', 'asc');
+        }
+
+        if ($request->get('sort') == 'nameZA') {
+            $products = $products->orderBy('name', 'desc');
+        }
+
+        $products = $products->paginate(16);
+        $catId = $request->get('cat') ? $request->get('cat') : 'all';
         return view('front.index', [
             'products' => $products,
-            'sliders' => $sliders,
             'menuItems' => $menuItems,
-            'customBlock' => $customBlock
+            'customBlock' => $customBlock,
+            'catId' => $catId
         ]);
     }
 

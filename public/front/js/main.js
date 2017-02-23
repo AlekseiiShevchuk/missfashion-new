@@ -1,7 +1,22 @@
 /**
  * Created by chucho on 30.01.17.
  */
-
+$.extend({
+    getUrlVars: function(){
+        var vars = [], hash;
+        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        for(var i = 0; i < hashes.length; i++)
+        {
+            hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
+        }
+        return vars;
+    },
+    getUrlVar: function(name){
+        return $.getUrlVars()[name];
+    }
+});
 $(function() {
     console.log( "ready!" );
 
@@ -48,7 +63,7 @@ $(function() {
         }
 
         if (location.search !== '') {
-            location.href = current + '&' + 'search=' + $( "input[name='search']" ).val();
+            location.href = '?' + 'cat=' + $.getUrlVar('cat')+ '&' + 'sort=' + $.getUrlVar('sort') + '&' + 'search=' + $( "input[name='search']" ).val();
             // console.log(current +'&' + 'search=' + $( "input[name='search']" ).val());
             return false;
         }
@@ -58,7 +73,26 @@ $(function() {
             return false;
         }
     });
+    $("#search-cat2").submit(function( event ) {
 
+        var current = location.href;
+
+        if (location.search === '?page=') {
+            location.href = '?' + 'search=' + $( "input[name='search2']" ).val();
+            return false;
+        }
+
+        if (location.search !== '') {
+            location.href = '?' + 'cat=' + $.getUrlVar('cat')+ '&' + 'sort=' + $.getUrlVar('sort') + '&' + 'search=' + $( "input[name='search2']" ).val();
+            // console.log(current +'&' + 'search=' + $( "input[name='search']" ).val());
+            return false;
+        }
+        else {
+            location.href = current + '?' + 'search=' + $( "input[name='search2']" ).val();
+            // console.log(current +'?' + 'search=' + $( "input[name='search']" ).val());
+            return false;
+        }
+    });
     $('.order-dropdown li ul li > a').each(function () {
         var current = location.href,
             target = $(this).attr('href'),
