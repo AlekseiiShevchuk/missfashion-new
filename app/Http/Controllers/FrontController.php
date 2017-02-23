@@ -21,12 +21,6 @@ class FrontController extends Controller
         $customBlock = CustomOption::find('main_page_content_block')->value;
         $menuItems = TopMenuItem::where('is_main', 1)->get();
 
-        if ($request->get('cat') && ($request->get('cat') != 'all')) {
-            $category = Category::findOrFail((int)$request->get('cat'));
-            $products = $products->where('category_id', (int)$request->get('cat'));
-            $customBlock = $category->content_block;
-        }
-
         if ($request->get('search')) {
             $products = $products->where('name', 'like', '%' . $request->get('search') . '%');
         }
@@ -48,12 +42,11 @@ class FrontController extends Controller
         }
         $categoryName = 'All Products';
         $products = $products->paginate(16);
-        $catId = $request->get('cat') ? $request->get('cat') : 'all';
+
         return view('front.index', [
             'products' => $products,
             'menuItems' => $menuItems,
             'customBlock' => $customBlock,
-            'catId' => $catId,
             'categoryName' => $categoryName,
         ]);
     }
