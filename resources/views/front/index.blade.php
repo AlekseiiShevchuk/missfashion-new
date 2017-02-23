@@ -5,7 +5,7 @@
     @include('front.slider')
 
     <div class="container">
-        <h1 class="page-header">Our Products</h1>
+        <h1 class="page-header">{{$categoryName}}</h1>
     </div>
 
     @include('front.cats')
@@ -33,6 +33,7 @@
                     </div>
                 </div>
             @endforeach
+            <div class="clearfix"></div>
             <div class="row text-center">
                 <div class="container"> {{ $products->links() }}</div>
             </div>

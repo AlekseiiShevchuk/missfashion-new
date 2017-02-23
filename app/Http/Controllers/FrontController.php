@@ -46,14 +46,15 @@ class FrontController extends Controller
         if ($request->get('sort') == 'nameZA') {
             $products = $products->orderBy('name', 'desc');
         }
-
+        $categoryName = isset($category->name) ? $category->name : 'Our Products';
         $products = $products->paginate(16);
         $catId = $request->get('cat') ? $request->get('cat') : 'all';
         return view('front.index', [
             'products' => $products,
             'menuItems' => $menuItems,
             'customBlock' => $customBlock,
-            'catId' => $catId
+            'catId' => $catId,
+            'categoryName' => $categoryName,
         ]);
     }
 
