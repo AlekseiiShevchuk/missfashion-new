@@ -1,5 +1,6 @@
 <?php
 Route::get('/', 'FrontController@index')->name('main');
+Route::get('/cat/{category}', 'FrontController@categoryIndex')->name('category')->where('category', '[0-9]+');
 Route::get('/show/{id}/', 'FrontController@show');
 
 // Authentication Routes...

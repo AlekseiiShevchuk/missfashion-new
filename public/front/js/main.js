@@ -57,19 +57,12 @@ $(function() {
 
         var current = location.href;
 
-        if (location.search === '?page=') {
-            location.href = '?' + 'search=' + $( "input[name='search']" ).val();
-            return false;
-        }
-
         if (location.search !== '') {
-            location.href = '?' + 'cat=' + $.getUrlVar('cat')+ '&' + 'sort=' + $.getUrlVar('sort') + '&' + 'search=' + $( "input[name='search']" ).val();
-            // console.log(current +'&' + 'search=' + $( "input[name='search']" ).val());
+            location.href = '?' + 'search=' + $( "input[name='search']" ).val();
             return false;
         }
         else {
             location.href = current + '?' + 'search=' + $( "input[name='search']" ).val();
-            // console.log(current +'?' + 'search=' + $( "input[name='search']" ).val());
             return false;
         }
     });
@@ -77,19 +70,12 @@ $(function() {
 
         var current = location.href;
 
-        if (location.search === '?page=') {
-            location.href = '?' + 'search=' + $( "input[name='search2']" ).val();
-            return false;
-        }
-
         if (location.search !== '') {
-            location.href = '?' + 'cat=' + $.getUrlVar('cat')+ '&' + 'sort=' + $.getUrlVar('sort') + '&' + 'search=' + $( "input[name='search2']" ).val();
-            // console.log(current +'&' + 'search=' + $( "input[name='search']" ).val());
+            location.href = '?' + 'search=' + $( "input[name='search2']" ).val();
             return false;
         }
         else {
             location.href = current + '?' + 'search=' + $( "input[name='search2']" ).val();
-            // console.log(current +'?' + 'search=' + $( "input[name='search']" ).val());
             return false;
         }
     });

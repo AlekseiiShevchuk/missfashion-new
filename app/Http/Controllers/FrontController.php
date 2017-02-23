@@ -46,9 +46,51 @@ class FrontController extends Controller
         if ($request->get('sort') == 'nameZA') {
             $products = $products->orderBy('name', 'desc');
         }
-        $categoryName = isset($category->name) ? $category->name : 'Our Products';
+        $categoryName = 'All Products';
         $products = $products->paginate(16);
         $catId = $request->get('cat') ? $request->get('cat') : 'all';
+        return view('front.index', [
+            'products' => $products,
+            'menuItems' => $menuItems,
+            'customBlock' => $customBlock,
+            'catId' => $catId,
+            'categoryName' => $categoryName,
+        ]);
+    }
+
+    public function categoryIndex(Category $category, Request $request)
+    {
+        $menuItems = TopMenuItem::where('is_main', 1)->get();
+
+        $catId = $category->id;
+        $customBlock = $category->content_block;
+        $categoryName = $category->name;
+
+        $products = Product::query();
+        $products = $products->where('category_id', $catId);
+
+        if ($request->get('search')) {
+            $products = $products->where('name', 'like', '%' . $request->get('search') . '%');
+        }
+
+        if ($request->get('sort') == 'priceHF') {
+            $products = $products->orderBy('old_price', 'desc');
+        }
+
+        if ($request->get('sort') == 'priceLF') {
+            $products = $products->orderBy('old_price', 'asc');
+        }
+
+        if ($request->get('sort') == 'nameAZ') {
+            $products = $products->orderBy('name', 'asc');
+        }
+
+        if ($request->get('sort') == 'nameZA') {
+            $products = $products->orderBy('name', 'desc');
+        }
+
+
+        $products = $products->paginate(16);
         return view('front.index', [
             'products' => $products,
             'menuItems' => $menuItems,

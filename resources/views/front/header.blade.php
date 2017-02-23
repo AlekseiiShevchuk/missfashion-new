@@ -45,7 +45,7 @@
                                         @foreach($categories as $category)
                                             <div class="mega-submenu-content__item">
                                                 <div class="mega-submenu-content__title">{{ $category->name }}</div>
-                                                <a href="{{route('main')}}/?cat={{$category->id}}"
+                                                <a href="{{route('category', ['category' => $category->id])}}"
                                                    class="mega-submenu-content__img">
                                                     @if($category->photo)
                                                         <img src="/uploads/{{ $category->photo }}"

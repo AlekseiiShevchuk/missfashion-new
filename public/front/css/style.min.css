@@ -635,3 +635,7 @@ a:hover {
     height: auto;
     transition: transform 1s ease;
 }
+
+.mega-submenu-content__item:nth-child(4n) {
+    border-right: none;
+}
