@@ -57,7 +57,7 @@
                                                 </a>
                                             </div>
                                             @if(($loop->iteration % 4) == 0)
-                                                <br>
+                                                <div class="clearfix"></div>><br>
                                             @endif
                                         @endforeach
                                     </div>
