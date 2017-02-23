@@ -15,7 +15,7 @@
             @foreach($products as $product)
                 <div class="col-sm-6 col-md-3">
                     <div class="thumbnail">
-                        <a href="{{ action('FrontController@show', $product->id) }}"><img src="{{$product->images()->first()->local_small_img}}"></a>
+                        <a href="{{ action('FrontController@show', $product->id) }}"><img src="{{asset($product->images()->first()->local_small_img)}}"></a>
                         <div class="caption">
                             <h4 style="height: 38px;overflow: hidden;"><strong>{{ $product->name }}</strong></h4>
                             <p>{{ mb_substr($product->description, 0, 55) }} ... </p>
