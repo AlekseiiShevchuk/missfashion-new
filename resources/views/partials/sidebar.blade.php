@@ -130,6 +130,12 @@
                         <span class="title">Main page content block</span>
                     </a>
                 </li>
+            <li class="{{ $request->segment(1) == 'referal_link' ? 'active' : '' }}">
+                <a href="{{ route('contents.editRefLink') }}">
+                    <i class="fa fa-align-left"></i>
+                    <span class="title">Edit referal link</span>
+                </a>
+            </li>
                 <li class="{{ $request->segment(1) == 'top_menu_items' ? 'active' : '' }}">
                     <a href="{{ route('top_menu_items.index') }}">
                         <i class="fa fa-align-left"></i>

@@ -41,6 +41,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('sliders_mass_destroy', ['uses' => 'SlidersController@massDestroy', 'as' => 'sliders.mass_destroy']);
     Route::get('contents', 'ContentsController@edit')->name('contents.edit');
     Route::put('contents', 'ContentsController@update')->name('contents.update');
+    Route::get('referal_link', 'ContentsController@editRefLink')->name('contents.editRefLink');
+    Route::put('referal_link', 'ContentsController@updateRefLink')->name('contents.updateRefLink');
     Route::resource('top_menu_items', 'TopMenuItemsController');
     Route::post('top_menu_items_mass_destroy', ['uses' => 'TopMenuItemsController@massDestroy', 'as' => 'top_menu_items.mass_destroy']);
 });

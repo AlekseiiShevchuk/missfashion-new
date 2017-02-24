@@ -14,11 +14,11 @@ class ContentsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit()
-    {
-        $content = CustomOption::findOrNew('main_page_content_block')->value;
+{
+    $content = CustomOption::findOrNew('main_page_content_block')->value;
 
-        return view('contents.edit', compact('content'));
-    }
+    return view('contents.edit', compact('content'));
+}
 
     /**
      * Update the specified resource in storage.
@@ -32,5 +32,26 @@ class ContentsController extends Controller
         $content->update($request->only('value'));
 
         return redirect()->route('contents.edit');
+    }
+
+    public function editRefLink()
+    {
+        $content = CustomOption::findOrNew('referal_link_prefix')->value;
+
+        return view('contents.edit_ref_link', compact('content'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updateRefLink(Request $request)
+    {
+        $content = CustomOption::find('referal_link_prefix');
+        $content->update($request->only('value'));
+
+        return redirect()->route('contents.editRefLink');
     }
 }
