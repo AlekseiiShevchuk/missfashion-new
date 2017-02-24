@@ -48,7 +48,7 @@
                         <hr>
                         <h4>BESKRIVELSE</h4>
                         <p>{{ $product->description }}</p>
-                        <a href="{{ $product->source_url }}" class="btn btn-primary">Buy</a>
+                        <a href="{{ $referal_link_prefix . $product->source_url }}" class="btn btn-primary" style="padding-left:30px;padding-right:30px;">Bestil nu!</a>
                     </div>
                     <div class="extra-product-information">
                         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -102,8 +102,8 @@
                                     </div>
                                     <hr>
                                     <p>
-                                        <a href="{{ action('FrontController@show', $product->id) }}" class="btn btn-default">More Info</a>
-                                        <a href="{{ action('FrontController@show', $product->id) }}" class="btn btn-primary">Buy Now!</a>
+                                        <a href="{{ action('FrontController@show', $product->id) }}" class="btn btn-default">Mere Info</a>
+                                        <a href="{{ $referal_link_prefix . $product->source_url }}" class="btn btn-primary" style="padding-left:30px;padding-right:30px;">Bestil nu!</a>
                                     </p>
                                 </div>
                             </div>

@@ -26,8 +26,8 @@
                             <p class="thumbnail-category"><storng>Category: </storng><a href="{{route('category',['category' =>$product->category->id])}}">{{ $product->category->name }}</a></p>
                             <hr>
                             <p>
-                                <a href="{{ action('FrontController@show', $product->id) }}" class="btn btn-default">More Info</a>
-                                <a href="{{ action('FrontController@show', $product->id) }}" class="btn btn-primary" style="padding-left:30px;padding-right:30px;">Buy Now!</a>
+                                <a href="{{ action('FrontController@show', $product->id) }}" class="btn btn-default">Mere Info</a>
+                                <a href="{{ $referal_link_prefix . $product->source_url }}" class="btn btn-primary" style="padding-left:30px;padding-right:30px;">Bestil nu!</a>
                             </p>
                         </div>
                     </div>
