@@ -16,8 +16,9 @@ class ContentsController extends Controller
     public function edit()
 {
     $content = CustomOption::findOrNew('main_page_content_block')->value;
+    $title = CustomOption::find('main_page_product_block_title')->value;
 
-    return view('contents.edit', compact('content'));
+    return view('contents.edit', compact('content','title'));
 }
 
     /**
@@ -30,6 +31,10 @@ class ContentsController extends Controller
     {
         $content = CustomOption::find('main_page_content_block');
         $content->update($request->only('value'));
+
+        $title = CustomOption::find('main_page_product_block_title');
+        $title->value = $request->get('title');
+        $title->save();
 
         return redirect()->route('contents.edit');
     }

@@ -127,7 +127,7 @@
                 <li class="{{ $request->segment(1) == 'contents' ? 'active' : '' }}">
                     <a href="{{ route('contents.edit') }}">
                         <i class="fa fa-align-left"></i>
-                        <span class="title">Main page content block</span>
+                        <span class="title">Main page content blocks</span>
                     </a>
                 </li>
             <li class="{{ $request->segment(1) == 'referal_link' ? 'active' : '' }}">

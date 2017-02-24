@@ -40,7 +40,7 @@ class FrontController extends Controller
         if ($request->get('sort') == 'nameZA') {
             $products = $products->orderBy('name', 'desc');
         }
-        $categoryName = 'Modetøj: Kæmpe udvalg';
+        $categoryName = CustomOption::find('main_page_product_block_title')->value;
         $products = $products->paginate(16);
 
         return view('front.index', [

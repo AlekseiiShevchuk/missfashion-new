@@ -10,6 +10,9 @@
             <div class="col-xs-12 form-group">
                 {!! Form::label('value', 'Content block for main page', ['class' => 'control-label']) !!}
                 {!! Form::textarea('value', $content, ['class' => 'form-control editor', 'placeholder' => '']) !!}
+                <br>
+                {!! Form::label('title', 'Title for Products-block on main page', ['class' => 'control-label']) !!}
+                {!! Form::text('title', $title, ['class' => 'form-control', 'placeholder' => '']) !!}
             </div>
         </div>
     </div>
