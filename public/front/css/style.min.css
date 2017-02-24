@@ -646,3 +646,27 @@ a:hover {
 .mega-submenu-content__item:nth-child(4n) {
     border-right: none;
 }
+
+
+.caption-description {
+    max-height: 40px;
+    overflow: hidden;
+}
+img.thumbnail-img {
+    position: relative;
+    height: 300px !important;
+}
+img.thumbnail-img:after {
+    content: 'Bilde ikke funnet :(';
+    background: whitesmoke;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    color: red;
+    left: 0;
+    right: 0;
+}
