@@ -51,6 +51,8 @@ class PublishProductToFb extends Command
             'default_graph_version' => 'v2.8',
         ]);
         $product = Product::all()->random(1);
+
+        dd(route('products.show', ['id' => $product->id]));
         $linkData = [
             'link' => route('products.show', ['id' => $product->id]),
             'message' => $product->description,
