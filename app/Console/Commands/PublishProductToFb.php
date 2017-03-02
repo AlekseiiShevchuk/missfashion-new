@@ -50,12 +50,12 @@ class PublishProductToFb extends Command
             'app_secret' => $app_secret,
             'default_graph_version' => 'v2.8',
         ]);
-        $product = Product::all()->random(1);
+        $product = Product::where('old_price', '>', 1)->get()->random(1);
 
         $linkData = [
             'link' => route('front.product.show', ['id' => $product->id]),
-            'message' => $product->description,
-            'image' => asset($product->images()->first()->local_big_img),
+            //'message' => $product->description,
+            'photo' => asset($product->images()->first()->local_big_img),
         ];
 
         try {
