@@ -53,7 +53,7 @@ class PublishProductToFb extends Command
         $product = Product::all()->random(1);
 
         $linkData = [
-            'link' => route('products.show', ['id' => $product->id]),
+            'link' => route('front.product.show', ['id' => $product->id]),
             'message' => $product->description,
         ];
 
