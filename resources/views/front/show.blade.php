@@ -2,6 +2,9 @@
 @section('title')
     {{$product->name}} | Old price <strike>KR {{ $product->old_price }}</strike>, New price KR {{$product->new_price}}
 @endsection
+@section('product_image')
+    <meta property="og:image" content="{{asset($product->images()->first()->local_big_img)}}"/>
+@endsection
 @section('content')
 
     <main class="product-full">
@@ -18,7 +21,8 @@
                     <div class="product-slider-thumb">
                         @foreach($product->images as $item)
                             <div class="slide-thumb">
-                                <img src="/{{$item->local_small_img}}" style="width: 100%;" alt="Thumb image {{ $item->id }}">
+                                <img src="/{{$item->local_small_img}}" style="width: 100%;"
+                                     alt="Thumb image {{ $item->id }}">
                             </div>
                         @endforeach
                     </div>
@@ -28,7 +32,8 @@
                         <h1>{{ $product->name }}</h1>
                         <div>
                             <span><strong>Varenummer:</strong> {{ $product->sku }}</span>
-                            <span><strong>Category:</strong> <a href="{{route('main')}}/?cat={{$product->category->id}}">{{ $product->category->name }}</a></span>
+                            <span><strong>Category:</strong> <a
+                                        href="{{route('main')}}/?cat={{$product->category->id}}">{{ $product->category->name }}</a></span>
                         </div>
                         <div class="price">
                             <span class="text-danger"><strike>KR {{ $product->old_price }}</strike></span>
@@ -50,14 +55,16 @@
                         <hr>
                         <h4>BESKRIVELSE</h4>
                         <p>{{ $product->description }}</p>
-                        <a href="{{ $referal_link_prefix . $product->source_url }}" class="btn btn-primary" style="padding-left:30px;padding-right:30px;">Bestil nu!</a>
+                        <a href="{{ $referal_link_prefix . $product->source_url }}" class="btn btn-primary"
+                           style="padding-left:30px;padding-right:30px;">Bestil nu!</a>
                     </div>
                     <div class="extra-product-information">
                         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                             <div class="panel panel-default">
                                 <div class="panel-heading" role="tab" id="headingOne">
                                     <h4 class="panel-title">
-                                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        <a role="button" data-toggle="collapse" data-parent="#accordion"
+                                           href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                             STØRRELSESGUIDE
                                         </a>
                                     </h4>
@@ -71,7 +78,8 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading" role="tab" id="headingOne">
                                     <h4 class="panel-title">
-                                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">
+                                        <a role="button" data-toggle="collapse" data-parent="#accordion"
+                                           href="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">
                                             LEVERING & RETUR
                                         </a>
                                     </h4>
@@ -94,18 +102,24 @@
                     @foreach($products as $product)
                         <div class="col-sm-6 col-md-3">
                             <div class="thumbnail">
-                                <a href="{{ action('FrontController@show', $product->id) }}"><img src="/{{$product->images()->first()->local_small_img}}"></a>
+                                <a href="{{ action('FrontController@show', $product->id) }}"><img
+                                            src="/{{$product->images()->first()->local_small_img}}"></a>
                                 <div class="caption">
-                                    <h4 style="height: 38px;overflow: hidden;"><strong>{{ $product->name }}</strong></h4>
-                                    <p class="caption-description">{{ mb_substr($product->description, 0, 50) }} ... </p>
+                                    <h4 style="height: 38px;overflow: hidden;"><strong>{{ $product->name }}</strong>
+                                    </h4>
+                                    <p class="caption-description">{{ mb_substr($product->description, 0, 50) }}
+                                        ... </p>
                                     <div class="price">
                                         <span class="text-danger"><strike>KR {{ $product->old_price }}</strike></span>
                                         <span class="text-primary"> KR {{$product->new_price}} </span>
                                     </div>
                                     <hr>
                                     <p>
-                                        <a href="{{ action('FrontController@show', $product->id) }}" class="btn btn-default">Mere Info</a>
-                                        <a href="{{ $referal_link_prefix . $product->source_url }}" class="btn btn-primary" style="padding-left:30px;padding-right:30px;">Bestil nu!</a>
+                                        <a href="{{ action('FrontController@show', $product->id) }}"
+                                           class="btn btn-default">Mere Info</a>
+                                        <a href="{{ $referal_link_prefix . $product->source_url }}"
+                                           class="btn btn-primary" style="padding-left:30px;padding-right:30px;">Bestil
+                                            nu!</a>
                                     </p>
                                 </div>
                             </div>

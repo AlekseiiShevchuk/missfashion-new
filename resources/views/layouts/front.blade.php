@@ -17,6 +17,7 @@
             RevSliderEmbedder::headIncludes(false);
         }
     @endphp
+    @yield('product_image')
 </head>
 <body>
 
