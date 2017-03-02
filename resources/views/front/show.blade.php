@@ -1,5 +1,7 @@
 @extends('layouts.front')
-
+@section('title')
+    {{$product->name}} | Old price <strike>KR {{ $product->old_price }}</strike>, New price KR {{$product->new_price}}
+@endsection
 @section('content')
 
     <main class="product-full">

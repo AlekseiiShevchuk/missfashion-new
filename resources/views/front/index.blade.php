@@ -1,5 +1,7 @@
 @extends('layouts.front')
-
+@section('title')
+    {{$categoryName}}  | Missfashion Shop
+@endsection
 @section('content')
 
     @include('front.slider')
