@@ -56,6 +56,7 @@ class PublishProductToFb extends Command
             'link' => route('front.product.show', ['id' => $product->id]),
             //'message' => $product->description,
             'photo' => asset($product->images()->first()->local_big_img),
+            'description' => '',
         ];
 
         try {
