@@ -15,10 +15,12 @@
             @foreach($products as $product)
                 <div class="col-sm-6 col-md-3">
                     <div class="thumbnail">
-                        <a href="{{ action('FrontController@show', $product->id) }}"><img src="{{asset($product->images()->first()->local_small_img)}}"></a>
+                        <a href="{{ action('FrontController@show', $product->id) }}">
+                            <img class="thumbnail-img" src="{{asset($product->images()->first()->local_small_img)}}">
+                        </a>
                         <div class="caption">
                             <h4 style="height: 38px;overflow: hidden;"><strong>{{ $product->name }}</strong></h4>
-                            <p>{{ mb_substr($product->description, 0, 55) }} ... </p>
+                            <p class="caption-description">{{ mb_substr($product->description, 0, 50) }} ... </p>
                             <div class="price">
                                 <span class="text-danger"><strike>KR {{ $product->old_price }}</strike></span>
                                 <span class="text-primary"> KR {{$product->new_price}} </span>
