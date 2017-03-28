@@ -40,11 +40,11 @@ class PublishProductToFb extends Command
     public function handle()
     {
         // App ID и App Secret из настроек приложения
-        $app_id = "1189852821128418";
-        $app_secret = "e4fd58bfef782178211d4c80133a0dad";
+        $app_id = env('FB_APP_ID');
+        $app_secret = env('FB_APP_SECRET');
         // ID страницы и токен
-        $page_id = "1249065695166420";
-        $token = "EAAQ6KjK9BOIBAGw9xH5cY3N6C8nl320DPqSC5ZCedbUp37mgKQuWmWkF8y9s0VAjZAW5bPb9s5e2FiGy9YTgp4swScgiOgeQEXXtBHblchrIWPcwwWJvZA70ZBP9LY8ydoQEukAQ7Vv388USEgY08j3e8uLs4ZALo3tXdU9OeXAZDZD";
+        $page_id = env('FB_PAGE_ID');
+        $token = env('FB_PAGE_TOKEN');
         $fb = new Facebook([
             'app_id' => $app_id,
             'app_secret' => $app_secret,
