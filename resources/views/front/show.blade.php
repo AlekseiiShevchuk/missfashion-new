@@ -1,6 +1,11 @@
 @extends('layouts.front')
 @section('title')
-    {{$product->name}} | Old price <strike>KR {{ $product->old_price }}</strike>, New price KR {{$product->new_price}}
+    {{$product->name}} |
+    @if($product->old_price && $product->new_price)
+    Old price <strike>KR {{ $product->old_price }}</strike>, New price KR {{$product->new_price}}
+    @elseif($product->regular_price)
+    Price {{$product->regular_price}}
+    @endif
 @endsection
 @section('product_image')
     <meta property="og:image" content="{{asset($product->images()->first()->local_big_img)}}"/>
@@ -36,8 +41,12 @@
                                         href="{{route('main')}}/?cat={{$product->category->id}}">{{ $product->category->name }}</a></span>
                         </div>
                         <div class="price">
+                            @if($product->old_price && $product->new_price)
                             <span class="text-danger"><strike>KR {{ $product->old_price }}</strike></span>
                             <span class="text-primary"> KR {{$product->new_price}} </span>
+                            @elseif($product->regular_price)
+                                <span class="text-primary"> KR {{$product->regular_price}} </span>
+                            @endif
                         </div>
                         <hr>
                         <div class="sizes">

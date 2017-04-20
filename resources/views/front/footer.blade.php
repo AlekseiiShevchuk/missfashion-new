@@ -30,7 +30,7 @@
                 <div class="media">
                     <div class="media-body">
                         <h4 class="media-heading"><a href="{{ action('FrontController@show', $rated_product->id) }}">{{ $rated_product->name }}</a></h4>
-                        <p><strong>KR {{$rated_product->new_price}}</strong></p>
+                        <p><strong>KR {{$rated_product->new_price or $rated_product->regular_price}}</strong></p>
                     </div>
                     <div class="media-right">
                         <a href="{{ action('FrontController@show', $rated_product->id) }}">
