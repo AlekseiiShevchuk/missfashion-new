@@ -2,9 +2,9 @@
 @section('title')
     {{$product->name}} |
     @if($product->old_price && $product->new_price)
-    Old price <strike>KR {{ $product->old_price }}</strike>, New price KR {{$product->new_price}}
+        Før pris <strike>KR {{ $product->old_price }}</strike>, Ny pris KR {{$product->new_price}}
     @elseif($product->regular_price)
-    Price {{$product->regular_price}}
+    Pris {{$product->regular_price}}
     @endif
 @endsection
 @section('product_image')
